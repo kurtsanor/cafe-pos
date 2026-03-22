@@ -1,0 +1,24 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  background: var(--pos-separators);
+  flex: 1;
+  padding: 1rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header__buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--mantine-spacing-md);
+  align-items: center;
+}

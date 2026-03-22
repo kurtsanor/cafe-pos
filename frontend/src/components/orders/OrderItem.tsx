@@ -1,6 +1,6 @@
-import { ActionIcon, Image, NumberInput, Paper } from "@mantine/core";
+import { ActionIcon, Image } from "@mantine/core";
 import classes from "../../styles/OrderItem.module.css";
-import { IconX } from "@tabler/icons-react";
+import { IconTrash } from "@tabler/icons-react";
 import { Quantity } from "./Quantity";
 
 const OrderItem = () => {
@@ -23,7 +23,7 @@ const OrderItem = () => {
       </section>
       <p className={classes.item__price}>$24.00</p>
       <ActionIcon variant="light" color="red" size={18} ml="xs">
-        <IconX />
+        <IconTrash />
       </ActionIcon>
     </div>
   );
