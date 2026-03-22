@@ -38,7 +38,7 @@ const SidebarLink = ({
 };
 
 const Sidebar = () => {
-  const [active, setActive] = useState(2);
+  const [active, setActive] = useState(1);
 
   const links = sidebarRoutes.map((link, index) => (
     <SidebarLink

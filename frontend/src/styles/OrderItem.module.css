@@ -1,0 +1,28 @@
+.item {
+  display: flex;
+  align-items: center;
+}
+
+.item__section_labels {
+  display: flex;
+  flex-direction: column;
+  margin-left: 0.5rem;
+  flex: 1;
+  max-width: 28vh;
+  width: 100%;
+}
+
+.item__title {
+  font-size: 14px;
+  color: var(--pos-type-dark);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item__price {
+  font-size: 14px;
+  color: var(--pos-type-dark);
+  font-weight: 500;
+}
