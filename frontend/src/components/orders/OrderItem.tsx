@@ -1,6 +1,7 @@
 import { ActionIcon, Image, NumberInput, Paper } from "@mantine/core";
 import classes from "../../styles/OrderItem.module.css";
 import { IconX } from "@tabler/icons-react";
+import { Quantity } from "./Quantity";
 
 const OrderItem = () => {
   return (
@@ -17,7 +18,8 @@ const OrderItem = () => {
         <p className={classes.item__title} title="Schezwan Egg Noodles Premium">
           Schezwan Egg Noodles Premium
         </p>
-        <NumberInput size="xs" w={55} allowNegative={false} max={999} mt={2} />
+        <Quantity />
+        {/* <NumberInput size="xs" w={55} allowNegative={false} max={999} mt={2} /> */}
       </section>
       <p className={classes.item__price}>$24.00</p>
       <ActionIcon variant="light" color="red" size={18} ml="xs">
