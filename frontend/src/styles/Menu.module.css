@@ -1,0 +1,17 @@
+.main {
+  display: flex;
+  flex-direction: row;
+  background: var(--pos-separators);
+  flex: 1;
+}
+
+.main__menu {
+  flex: 5;
+  padding: 1rem;
+}
+
+.main__order_entry {
+  flex: 2;
+  border-left: 1px solid
+    light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+}
