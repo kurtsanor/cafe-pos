@@ -13,10 +13,29 @@ export const theme = createTheme({
       "#ffa36e",
       "#ffb347",
       "#fd9535",
-      POS_ACCENT, // index [6]
+      POS_ACCENT,
       "#e5721a",
       "#cc6516",
       "#b35812",
     ],
+  },
+  components: {
+    Select: {
+      styles: {
+        option: {
+          fontSize: "var(--mantine-font-size-sm)",
+          fontFamily: "var(--mantine-font-family)",
+        },
+      },
+    },
+    Modal: {
+      styles: {
+        title: {
+          fontSize: "16px",
+          fontWeight: 500,
+          color: "#171826",
+        },
+      },
+    },
   },
 });

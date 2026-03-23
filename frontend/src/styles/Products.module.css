@@ -22,3 +22,11 @@
   margin-top: var(--mantine-spacing-md);
   align-items: center;
 }
+
+.row__action_icon {
+  color: var(--pos-dark-type) !important;
+
+  &:hover {
+    background-color: var(--pos-highlight) !important;
+  }
+}

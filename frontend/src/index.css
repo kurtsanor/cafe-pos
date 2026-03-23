@@ -97,3 +97,16 @@ span {
   font: 14px/100% var(--sans);
   letter-spacing: 0.18px;
 }
+
+td,
+th {
+  font: 14px/145% var(--sans);
+  letter-spacing: 0.18px;
+  color: var(--pos-type-dark);
+}
+
+th {
+  font-weight: 500;
+  background-color: var(--pos-separators);
+  color: var(--pos-type-dark);
+}

@@ -1,6 +1,8 @@
 import {
+  ActionIcon,
   Button,
   Image,
+  Menu,
   Pagination,
   Paper,
   ScrollArea,
@@ -8,8 +10,17 @@ import {
   TextInput,
 } from "@mantine/core";
 import classes from "../styles/Products.module.css";
-import { IconFilter2, IconPlus, IconSearch } from "@tabler/icons-react";
+import {
+  IconDotsVertical,
+  IconEdit,
+  IconFilter2,
+  IconPlus,
+  IconSearch,
+  IconTrash,
+} from "@tabler/icons-react";
 import { useState } from "react";
+import { modals } from "@mantine/modals";
+import { MODAL_KEYS } from "../constants/modals";
 
 const limit = 10;
 const total = 145;
@@ -17,7 +28,17 @@ const totalPages = Math.ceil(total / limit);
 
 const Products = () => {
   const [page, setPage] = useState(1);
-  const message = `Showing ${limit * (page - 1) + 1} – ${Math.min(total, limit * page)} of ${total}`;
+  const message = `Showing ${limit * (page - 1) + 1} - ${Math.min(total, limit * page)} of ${total}`;
+
+  // Handles opening of product form modal
+  const openProductModal = () => {
+    modals.openContextModal({
+      title: "New Product",
+      modal: MODAL_KEYS.ProductForm,
+      innerProps: {},
+      centered: true,
+    });
+  };
 
   const products = Array.from({ length: 5 }, (_, i) => (
     <Table.Tr key={i}>
@@ -34,6 +55,27 @@ const Products = () => {
       <Table.Td>Schezwan Egg Noodles</Table.Td>
       <Table.Td>Noodles</Table.Td>
       <Table.Td>$24.00</Table.Td>
+      <Table.Td>
+        <Menu>
+          <Menu.Target>
+            <ActionIcon
+              variant="subtle"
+              size={20}
+              className={classes.row__action_icon}
+            >
+              <IconDotsVertical />
+            </ActionIcon>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Item leftSection={<IconEdit size={16} />}>
+              <span>Edit</span>
+            </Menu.Item>
+            <Menu.Item color="red" leftSection={<IconTrash size={16} />}>
+              <span>Delete</span>
+            </Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
+      </Table.Td>
     </Table.Tr>
   ));
 
@@ -45,7 +87,12 @@ const Products = () => {
           <Button variant="outline" leftSection={<IconFilter2 size={16} />}>
             Filter
           </Button>
-          <Button leftSection={<IconPlus size={16} />}>New Product</Button>
+          <Button
+            leftSection={<IconPlus size={16} />}
+            onClick={openProductModal}
+          >
+            New Product
+          </Button>
         </section>
       </header>
       <TextInput
@@ -57,13 +104,14 @@ const Products = () => {
       />
       <Paper shadow="xs" p="xs" mt={"md"}>
         <ScrollArea>
-          <Table withRowBorders={false} striped>
+          <Table withRowBorders={false} striped={"even"}>
             <Table.Thead>
               <Table.Tr>
                 <Table.Th>Image</Table.Th>
                 <Table.Th>Product Name</Table.Th>
                 <Table.Th>Category</Table.Th>
                 <Table.Th>Price</Table.Th>
+                <Table.Th>Action</Table.Th>
               </Table.Tr>
             </Table.Thead>
             <Table.Tbody>{products}</Table.Tbody>
@@ -72,7 +120,7 @@ const Products = () => {
       </Paper>
       <footer className={classes.footer}>
         <span>{message}</span>
-        <Pagination size={"sm"} total={10} withPages={false} ml="xs" />
+        <Pagination size={"sm"} total={totalPages} withPages={false} ml="xs" />
       </footer>
     </main>
   );
