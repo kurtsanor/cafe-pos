@@ -3,26 +3,23 @@ import { IconHome2, IconLogout } from "@tabler/icons-react";
 import { Stack, UnstyledButton } from "@mantine/core";
 import classes from "../../styles/Navbar.module.css";
 import { sidebarRoutes } from "../../constants/routes";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 interface SidebarLinkProps {
   icon: typeof IconHome2;
   label: string;
+  to: string;
   active?: boolean;
-  onClick?: () => void;
 }
 
-const SidebarLink = ({
-  icon: Icon,
-  label,
-  active,
-  onClick,
-}: SidebarLinkProps) => {
+const SidebarLink = ({ icon: Icon, label, to, active }: SidebarLinkProps) => {
   return (
     <UnstyledButton
-      onClick={onClick}
       className={classes.link}
       data-active={active || undefined}
       aria-label={label}
+      component={Link}
+      to={to}
     >
       <Icon
         data-active={active || undefined}
@@ -38,14 +35,13 @@ const SidebarLink = ({
 };
 
 const Sidebar = () => {
-  const [active, setActive] = useState(1);
+  const location = useLocation();
 
   const links = sidebarRoutes.map((link, index) => (
     <SidebarLink
       {...link}
       key={link.label}
-      active={index === active}
-      onClick={() => setActive(index)}
+      active={link.to === location.pathname}
     />
   ));
 
@@ -58,7 +54,7 @@ const Sidebar = () => {
       </div>
 
       <Stack justify="center" gap={0}>
-        <SidebarLink icon={IconLogout} label="Logout" />
+        <SidebarLink to="/" icon={IconLogout} label="Logout" />
       </Stack>
     </nav>
   );

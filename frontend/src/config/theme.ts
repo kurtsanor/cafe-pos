@@ -1,4 +1,4 @@
-import { createTheme } from "@mantine/core";
+import { createTheme, Drawer } from "@mantine/core";
 
 const POS_ACCENT = "#fc8019";
 
@@ -29,6 +29,15 @@ export const theme = createTheme({
       },
     },
     Modal: {
+      styles: {
+        title: {
+          fontSize: "16px",
+          fontWeight: 500,
+          color: "#171826",
+        },
+      },
+    },
+    Drawer: {
       styles: {
         title: {
           fontSize: "16px",

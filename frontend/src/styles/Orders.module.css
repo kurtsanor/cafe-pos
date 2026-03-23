@@ -1,0 +1,12 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  background: var(--pos-separators);
+  flex: 1;
+  padding: 1rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}

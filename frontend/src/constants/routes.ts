@@ -9,11 +9,11 @@ import {
 } from "@tabler/icons-react";
 
 export const sidebarRoutes = [
-  { icon: IconHome2, label: "Dashboard" },
-  { icon: IconGauge, label: "Menu" },
-  { icon: IconDeviceDesktopAnalytics, label: "Orders" },
-  { icon: IconCalendarStats, label: "Releases" },
-  { icon: IconUser, label: "Account" },
-  { icon: IconFingerprint, label: "Security" },
-  { icon: IconSettings, label: "Settings" },
+  { icon: IconHome2, label: "Dashboard", to: "" },
+  { icon: IconGauge, label: "Menu", to: "/" },
+  { icon: IconDeviceDesktopAnalytics, label: "Orders", to: "/orders" },
+  { icon: IconCalendarStats, label: "Products", to: "/products" },
+  { icon: IconUser, label: "Account", to: "" },
+  { icon: IconFingerprint, label: "Security", to: "" },
+  { icon: IconSettings, label: "Settings", to: "" },
 ];
