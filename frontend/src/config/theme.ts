@@ -40,7 +40,7 @@ export const theme = createTheme({
     Drawer: {
       styles: {
         title: {
-          fontSize: "16px",
+          fontSize: "18px",
           fontWeight: 500,
           color: "#171826",
         },

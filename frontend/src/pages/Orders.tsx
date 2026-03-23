@@ -26,6 +26,7 @@ const Orders = () => {
     <Table.Tr key={i} onClick={() => setSelectedOrder(i + 1)}>
       <Table.Td>#09093</Table.Td>
       <Table.Td>09:56:00 AM</Table.Td>
+      <Table.Td>4</Table.Td>
       <Table.Td>$124.00</Table.Td>
     </Table.Tr>
   ));
@@ -65,6 +66,7 @@ const Orders = () => {
               <Table.Tr>
                 <Table.Th>Order #</Table.Th>
                 <Table.Th>Time</Table.Th>
+                <Table.Th>Quantity</Table.Th>
                 <Table.Th>Order Total</Table.Th>
               </Table.Tr>
             </Table.Thead>

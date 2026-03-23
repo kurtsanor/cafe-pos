@@ -1,3 +1,7 @@
 .quantity {
   color: var(--text);
 }
+
+.button__print {
+  background: var(--pos-pop) !important;
+}
