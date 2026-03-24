@@ -1,0 +1,9 @@
+.main {
+  background: var(--pos-separators);
+  padding: 1rem;
+  flex: 1;
+}
+
+.chart__title {
+  color: var(--pos-type-faded);
+}

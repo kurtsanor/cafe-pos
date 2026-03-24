@@ -10,6 +10,7 @@ const ProductCard = () => {
           alt="Tesla Model S"
           fit="cover"
           radius={"xs"}
+          h={150}
         />
       </Card.Section>
       <Card.Section p={"xs"}>

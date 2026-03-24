@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App.tsx";
 import "@mantine/core/styles.css";
 import "@mantine/dropzone/styles.css";
+import "@mantine/charts/styles.css";
 import { MantineProvider } from "@mantine/core";
 import { BrowserRouter } from "react-router-dom";
 import { theme } from "./config/theme.ts";

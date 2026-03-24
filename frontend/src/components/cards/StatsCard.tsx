@@ -1,0 +1,36 @@
+import { Paper, Group, Text } from "@mantine/core";
+import classes from "../../styles/StatsCard.module.css";
+import { IconArrowUpRight, IconCoin } from "@tabler/icons-react";
+
+interface StatsCardInterface {
+  title: string;
+  value: number;
+  diff: number;
+}
+
+const StatsCard = ({ title, value, diff }: StatsCardInterface) => {
+  return (
+    <Paper shadow="xs" p="md">
+      <Group justify="space-between">
+        <Text size="xs" c="dimmed" className={classes.title}>
+          {title}
+        </Text>
+        <IconCoin className={classes.icon} size={22} stroke={1.5} />
+      </Group>
+
+      <Group align="flex-end" gap="xs" mt={25}>
+        <Text className={classes.value}>{value}</Text>
+        <Text c={diff > 0 ? "teal" : "red"} className={classes.diff}>
+          <span className={classes.diff}> {diff}%</span>
+          <IconArrowUpRight size={16} stroke={1.5} />
+        </Text>
+      </Group>
+
+      <Text fz="xs" c="dimmed" mt={7}>
+        Compared to previous month
+      </Text>
+    </Paper>
+  );
+};
+
+export default StatsCard;

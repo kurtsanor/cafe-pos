@@ -1,0 +1,25 @@
+.root {
+  padding: calc(var(--mantine-spacing-xl) * 1.5);
+}
+
+.value {
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  color: var(--pos-type-dark) !important;
+}
+
+.diff {
+  display: flex;
+  align-items: center;
+  color: var(--pos-pop) !important;
+}
+
+.icon {
+  color: var(--pos-accent);
+}
+
+.title {
+  font-weight: 600 !important;
+  color: var(--pos-type-faded) !important;
+}
