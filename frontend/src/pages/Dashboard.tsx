@@ -4,21 +4,21 @@ import classes from "../styles/Dashboard.module.css";
 import { AreaChart, DonutChart } from "@mantine/charts";
 
 const data = [
-  { date: "Mar 1", Apples: 1200 },
-  { date: "Mar 2", Apples: 2800 },
-  { date: "Mar 3", Apples: 6900 },
-  { date: "Mar 4", Apples: 3400 },
-  { date: "Mar 5", Apples: 2100 },
-  { date: "Mar 6", Apples: 4200 },
-  { date: "Mar 7", Apples: 3100 },
-  { date: "Mar 8", Apples: 7500 },
-  { date: "Mar 9", Apples: 2900 },
-  { date: "Mar 10", Apples: 3800 },
-  { date: "Mar 11", Apples: 2200 },
-  { date: "Mar 12", Apples: 4500 },
-  { date: "Mar 13", Apples: 3300 },
-  { date: "Mar 14", Apples: 1800 },
-  { date: "Mar 15", Apples: 3600 },
+  { date: "Mar 1", Sales: 1200 },
+  { date: "Mar 2", Sales: 2800 },
+  { date: "Mar 3", Sales: 6900 },
+  { date: "Mar 4", Sales: 3400 },
+  { date: "Mar 5", Sales: 2100 },
+  { date: "Mar 6", Sales: 4200 },
+  { date: "Mar 7", Sales: 3100 },
+  { date: "Mar 8", Sales: 7500 },
+  { date: "Mar 9", Sales: 2900 },
+  { date: "Mar 10", Sales: 3800 },
+  { date: "Mar 11", Sales: 2200 },
+  { date: "Mar 12", Sales: 4500 },
+  { date: "Mar 13", Sales: 3300 },
+  { date: "Mar 14", Sales: 1800 },
+  { date: "Mar 15", Sales: 3600 },
 ];
 
 const productData = [
@@ -47,18 +47,22 @@ const Dashboard = () => {
             h={200}
             data={data}
             dataKey="date"
-            series={[{ name: "Apples", color: "blue" }]}
+            series={[{ name: "Sales", color: "blue" }]}
             curveType="linear"
             gridAxis="x"
             gridProps={{ xAxisId: "bottom", yAxisId: "left" }}
           />
         </Paper>
         <Paper shadow="xs" p="md" flex={1}>
+          <h5 className={classes.chart__title}>Top 5 Most Ordered</h5>
           <DonutChart
             w={"100%"}
             data={productData}
             h={"100%"}
             paddingAngle={3}
+            withLabels
+            withLabelsLine={false}
+            labelsType="percent"
           />
         </Paper>
       </Flex>
