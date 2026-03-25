@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import helmet from "helmet";
 import productRoutes from "../src/routes/product.routes";
+import cors from "cors";
 
 // Load .env variables
 dotenv.config();
@@ -9,6 +10,22 @@ dotenv.config();
 // Init express app
 const app = express();
 app.use(express.json());
+
+const allowedOrigins = [process.env.FRONTEND_URL, "http://localhost:5173"];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true); // allow
+      } else {
+        callback(new Error("Not allowed by CORS")); // block
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  }),
+);
 
 app.use(helmet());
 

@@ -1,23 +1,41 @@
-import { Button, SimpleGrid } from "@mantine/core";
+import { Button, Center, Loader, SimpleGrid } from "@mantine/core";
 import ProductCard from "../components/cards/ProductCard";
 import classes from "../styles/Menu.module.css";
 import { IconCircleArrowRight, IconCircleX } from "@tabler/icons-react";
 import OrderItem from "../components/orders/OrderItem";
+import { useQuery } from "@tanstack/react-query";
+import { getAllProducts } from "../api/product.api";
+import type { Product } from "../types/product/product";
+import type { ApiResponse } from "../types/response/apiResponse";
 
 const Menu = () => {
+  const {
+    data: products,
+    isLoading,
+    isError,
+  } = useQuery<ApiResponse<Product[]>, Error>({
+    queryKey: ["products"],
+    queryFn: getAllProducts,
+  });
+
+  const productCards = products?.data?.map((product, index) => (
+    <ProductCard key={product._id} product={product} />
+  ));
+
+  if (isLoading)
+    return (
+      <div className={classes.main}>
+        <Center w={"100%"}>
+          <Loader />
+        </Center>
+      </div>
+    );
+  if (isError) return <div>Error fetching products.</div>;
+
   return (
     <main className={classes.main}>
       <article className={classes.main__menu}>
-        <SimpleGrid cols={{ base: 1, xs: 2, md: 4 }}>
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-        </SimpleGrid>
+        <SimpleGrid cols={{ base: 1, xs: 2, md: 4 }}>{productCards}</SimpleGrid>
       </article>
 
       {/* Order Entry Container */}
