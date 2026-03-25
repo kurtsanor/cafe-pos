@@ -128,9 +128,10 @@ const Products = () => {
         leftSection={<IconSearch size={16} />}
         placeholder="Search Products...."
         variant="default"
+        mb={"md"}
       />
-      <Paper shadow="xs" p="xs" mt={"md"}>
-        <ScrollArea>
+      <section className={classes.body__container}>
+        <Paper shadow="xs" p="xs">
           <Table withRowBorders={false} striped={"even"}>
             <Table.Thead>
               <Table.Tr>
@@ -143,8 +144,8 @@ const Products = () => {
             </Table.Thead>
             <Table.Tbody>{productRows}</Table.Tbody>
           </Table>
-        </ScrollArea>
-      </Paper>
+        </Paper>
+      </section>
       <footer className={classes.footer}>
         <span>{message}</span>
         <Pagination size={"sm"} total={totalPages} withPages={false} ml="xs" />

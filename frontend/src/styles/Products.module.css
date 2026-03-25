@@ -4,6 +4,7 @@
   background: var(--pos-separators);
   flex: 1;
   padding: 1rem;
+  max-height: 90vh;
 }
 
 .header {
@@ -14,6 +15,11 @@
 .header__buttons {
   display: flex;
   gap: 10px;
+}
+
+.body__container {
+  flex: 1;
+  overflow-y: auto;
 }
 
 .footer {
