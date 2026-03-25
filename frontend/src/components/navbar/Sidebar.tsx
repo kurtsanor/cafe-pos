@@ -48,7 +48,7 @@ const Sidebar = () => {
   return (
     <nav className={classes.navbar}>
       <div className={classes.navbarMain}>
-        <Stack justify="center" gap={0}>
+        <Stack justify="center" gap={5}>
           {links}
         </Stack>
       </div>

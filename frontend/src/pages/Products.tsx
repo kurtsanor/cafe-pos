@@ -1,7 +1,9 @@
 import {
   ActionIcon,
   Button,
+  Center,
   Image,
+  Loader,
   Menu,
   Pagination,
   Paper,
@@ -21,12 +23,25 @@ import {
 import { useState } from "react";
 import { modals } from "@mantine/modals";
 import { MODAL_KEYS } from "../constants/modals";
+import { useQuery } from "@tanstack/react-query";
+import { getAllProducts } from "../api/product.api";
+import type { ApiResponse } from "../types/response/apiResponse";
+import type { Product } from "../types/product/product";
 
 const limit = 10;
 const total = 145;
 const totalPages = Math.ceil(total / limit);
 
 const Products = () => {
+  const {
+    data: products,
+    isLoading,
+    isError,
+  } = useQuery<ApiResponse<Product[]>, Error>({
+    queryKey: ["products"],
+    queryFn: getAllProducts,
+  });
+
   const [page, setPage] = useState(1);
   const message = `Showing ${limit * (page - 1) + 1} - ${Math.min(total, limit * page)} of ${total}`;
 
@@ -40,21 +55,22 @@ const Products = () => {
     });
   };
 
-  const products = Array.from({ length: 5 }, (_, i) => (
-    <Table.Tr key={i}>
+  const productRows = products?.data?.map((product) => (
+    <Table.Tr key={product._id}>
       <Table.Td>
         <Image
-          src="https://assets.bonappetit.com/photos/5e3c7a3c866b940008106763/1:1/w_2560%2Cc_limit/HLY-Veggie-Ramen-16x9.jpg"
+          src={product.imageUrl}
           alt="product image"
           fit="cover"
+          fallbackSrc="https://assets.bonappetit.com/photos/5e3c7a3c866b940008106763/1:1/w_2560%2Cc_limit/HLY-Veggie-Ramen-16x9.jpg"
           radius={"xs"}
           h={40}
           w={40}
         />
       </Table.Td>
-      <Table.Td>Schezwan Egg Noodles</Table.Td>
-      <Table.Td>Noodles</Table.Td>
-      <Table.Td>$24.00</Table.Td>
+      <Table.Td>{product.name}</Table.Td>
+      <Table.Td>{product.category}</Table.Td>
+      <Table.Td>{`₱${product.price}`}</Table.Td>
       <Table.Td>
         <Menu>
           <Menu.Target>
@@ -78,6 +94,17 @@ const Products = () => {
       </Table.Td>
     </Table.Tr>
   ));
+
+  if (isLoading)
+    return (
+      <div className={classes.main}>
+        <Center w={"100%"} h={"100%"}>
+          <Loader />
+        </Center>
+      </div>
+    );
+
+  if (isError) return <div>Error fetching products.</div>;
 
   return (
     <main className={classes.main}>
@@ -114,7 +141,7 @@ const Products = () => {
                 <Table.Th>Action</Table.Th>
               </Table.Tr>
             </Table.Thead>
-            <Table.Tbody>{products}</Table.Tbody>
+            <Table.Tbody>{productRows}</Table.Tbody>
           </Table>
         </ScrollArea>
       </Paper>
