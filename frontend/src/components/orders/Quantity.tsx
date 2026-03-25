@@ -1,33 +1,31 @@
-import { useRef, useState } from "react";
 import { NumberInput, ActionIcon, Group } from "@mantine/core";
-import type { NumberInputHandlers } from "@mantine/core";
 import { IconMinus, IconPlus } from "@tabler/icons-react";
+import type { OrderEntry } from "../../types/order/order";
 
-export function Quantity() {
-  const handlers = useRef<NumberInputHandlers | null>(null);
-  const [value, setValue] = useState<number | "">(1);
+interface QuantityProps {
+  order: OrderEntry;
+  handleIncrement: (productId: string) => void;
+  handleDecrement: (productId: string) => void;
+  removeFromCart: (productId: string) => void;
+}
 
-  const handleChange = (val: string | number) => {
-    if (val === "") {
-      setValue("");
-    } else if (!isNaN(Number(val))) {
-      setValue(Number(val));
-    }
-  };
-
+export function Quantity({
+  order,
+  handleIncrement,
+  handleDecrement,
+}: QuantityProps) {
   return (
     <Group gap="xs">
       <ActionIcon
+        disabled={order.quantity == 1}
         variant="default"
-        onClick={() => handlers.current?.decrement()}
+        onClick={() => handleDecrement(order.product._id)}
       >
         <IconMinus size={16} />
       </ActionIcon>
 
       <NumberInput
-        value={value}
-        onChange={handleChange}
-        handlersRef={handlers}
+        value={order.quantity}
         hideControls
         min={1}
         size="xs"
@@ -38,7 +36,7 @@ export function Quantity() {
 
       <ActionIcon
         variant="default"
-        onClick={() => handlers.current?.increment()}
+        onClick={() => handleIncrement(order.product._id)}
       >
         <IconPlus size={16} />
       </ActionIcon>

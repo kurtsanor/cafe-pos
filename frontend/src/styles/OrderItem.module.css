@@ -12,6 +12,12 @@
   width: 100%;
 }
 
+.item__section_right {
+  display: flex;
+  flex: 1;
+  justify-content: end;
+}
+
 .item__title {
   font-size: 14px;
   color: var(--pos-type-dark);

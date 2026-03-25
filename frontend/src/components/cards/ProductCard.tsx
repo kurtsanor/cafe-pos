@@ -4,11 +4,16 @@ import type { Product } from "../../types/product/product";
 
 interface ProductCardProps {
   product: Product;
+  onClick: (product: Product) => void;
 }
 
-const ProductCard = ({ product }: ProductCardProps) => {
+const ProductCard = ({ product, onClick }: ProductCardProps) => {
   return (
-    <Card shadow="xs">
+    <Card
+      shadow="xs"
+      onClick={() => onClick(product)}
+      className={classes.product}
+    >
       <Card.Section className={classes.product__image}>
         <Image
           src={product.imageUrl}

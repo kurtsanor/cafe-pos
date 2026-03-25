@@ -1,12 +1,18 @@
-import { Button, Center, Loader, SimpleGrid } from "@mantine/core";
+import { Button, Center, Loader, SimpleGrid, Stack, Text } from "@mantine/core";
 import ProductCard from "../components/cards/ProductCard";
 import classes from "../styles/Menu.module.css";
-import { IconCircleArrowRight, IconCircleX } from "@tabler/icons-react";
+import {
+  IconCircleArrowRight,
+  IconCircleX,
+  IconShoppingCartOff,
+} from "@tabler/icons-react";
 import OrderItem from "../components/orders/OrderItem";
 import { useQuery } from "@tanstack/react-query";
 import { getAllProducts } from "../api/product.api";
 import type { Product } from "../types/product/product";
 import type { ApiResponse } from "../types/response/apiResponse";
+import { useState } from "react";
+import type { OrderEntry } from "../types/order/order";
 
 const Menu = () => {
   const {
@@ -18,8 +24,80 @@ const Menu = () => {
     queryFn: getAllProducts,
   });
 
+  const [cart, setCart] = useState<OrderEntry[]>([]);
+
+  const totalPrice = cart.reduce(
+    (sum, item) => sum + item.product.price * item.quantity,
+    0,
+  );
+
+  // handles quantity increment via quantity component
+  const handleIncrement = (productId: string) => {
+    setCart((prev) =>
+      prev.map((item) => {
+        // find the target product and increment its quantity by one
+        if (item.product._id === productId) {
+          return {
+            ...item,
+            quantity: item.quantity + 1,
+          };
+        }
+        return item;
+      }),
+    );
+  };
+
+  // handles quantity increment via quantity component
+  const handleDecrement = (productId: string) => {
+    setCart((prev) =>
+      prev.map((item) => {
+        // find the target product and increment its quantity by one
+        if (item.product._id === productId) {
+          return {
+            ...item,
+            quantity: item.quantity - 1,
+          };
+        }
+        return item;
+      }),
+    );
+  };
+
+  // handles removing of product from cart
+  const removeFromCart = (productId: string) => {
+    setCart((prev) => prev.filter((item) => item.product._id !== productId));
+  };
+
+  // handles adding to cart
+  const addToOrder = (product: Product) => {
+    // check if product is already in cart to avoid duplicate
+    const inCartAlready = cart.find((item) => item.product._id === product._id);
+    if (inCartAlready) {
+      return;
+    }
+
+    // if product is not in the cart, add it
+    setCart((prev) => {
+      const orderItem = {
+        product,
+        quantity: 1,
+      };
+      return [...prev, orderItem];
+    });
+  };
+
   const productCards = products?.data?.map((product) => (
-    <ProductCard key={product._id} product={product} />
+    <ProductCard key={product._id} product={product} onClick={addToOrder} />
+  ));
+
+  const orderEntries = cart.map((order) => (
+    <OrderItem
+      key={order.product._id}
+      order={order}
+      handleIncrement={handleIncrement}
+      handleDecrement={handleDecrement}
+      removeFromCart={removeFromCart}
+    />
   ));
 
   if (isLoading)
@@ -48,26 +126,31 @@ const Menu = () => {
 
         {/* Order Entry Body */}
         <main className={classes.order_entry__body}>
-          <OrderItem />
-          <OrderItem />
-          <OrderItem />
-          <OrderItem />
-          <OrderItem />
-          <OrderItem />
-          <OrderItem />
+          {cart.length < 1 && (
+            <Center flex={1}>
+              <Stack align="center" gap={5}>
+                <IconShoppingCartOff size={48} stroke={1.5} />
+                <Text>No items in cart</Text>
+                <span>Add products to get started</span>
+              </Stack>
+            </Center>
+          )}
+          {orderEntries}
         </main>
 
         {/* Order Entry Footer */}
         <footer className={classes.order_entry__footer}>
           <section className={classes.footer__total}>
             <h4>Total</h4>
-            <h4>$195.00</h4>
+            <h4>{`₱${totalPrice}`}</h4>
           </section>
           <section className={classes.footer__buttons}>
             <Button
               fullWidth
               className={classes.footer__buttons_clear}
               leftSection={<IconCircleX size={16} stroke={1.5} />}
+              disabled={cart.length < 1}
+              onClick={() => setCart([])}
             >
               Clear Order
             </Button>
@@ -75,6 +158,8 @@ const Menu = () => {
               fullWidth
               className={classes.footer__buttons_place}
               leftSection={<IconCircleArrowRight size={16} stroke={1.5} />}
+              disabled={cart.length < 1}
+              onClick={() => console.log(cart)}
             >
               Place Order
             </Button>

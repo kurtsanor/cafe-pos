@@ -13,5 +13,8 @@
 }
 
 .topbar__title {
-  color: var(--pos-type-dark);
+  background: linear-gradient(90deg, #ff7a00, var(--pos-type-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
 }
