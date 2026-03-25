@@ -9,3 +9,11 @@ export interface Product extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface CreateProductDto {
+  name: string;
+  category: string;
+  price: number;
+  imageUrl?: string;
+  imagePublicId?: string;
+}
