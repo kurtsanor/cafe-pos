@@ -1,5 +1,5 @@
 import axiosInstance from "../config/axios";
-import type { CreateProductDto, Product } from "../types/product/product";
+import type { Product } from "../types/product/product";
 import type { ApiResponse } from "../types/response/apiResponse";
 
 export const getAllProducts = async (): Promise<ApiResponse<Product[]>> => {
@@ -8,7 +8,7 @@ export const getAllProducts = async (): Promise<ApiResponse<Product[]>> => {
 };
 
 export const createProduct = async (
-  data: CreateProductDto,
+  data: FormData,
 ): Promise<ApiResponse<Product>> => {
   const response = await axiosInstance.post("/products", data);
   return response.data;

@@ -1,17 +1,22 @@
 import * as productService from "../services/product.service";
-import { CreateProductDto, Product } from "../types/products/product";
+import { CreateProductDto } from "../types/products/product";
 import { Request, Response, NextFunction } from "express";
 import * as ResponseUtility from "../utils/response.util";
+import { MulterRequest } from "../types/request/multerRequest";
 
 // Create a mongoose product
 export const createProduct = async (
-  req: Request<{}, {}, CreateProductDto, {}>,
+  req: MulterRequest,
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
   try {
     // Retreive the product info from the request body
-    const productData: CreateProductDto = req.body;
+    // const reqBody: CreateProductDto = req.body;
+    const productData: CreateProductDto = {
+      ...req.body,
+      image: req.file?.buffer,
+    };
 
     // Create the product via product service
     const product = await productService.createProduct(productData);

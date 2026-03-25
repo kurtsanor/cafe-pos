@@ -18,7 +18,7 @@ const Menu = () => {
     queryFn: getAllProducts,
   });
 
-  const productCards = products?.data?.map((product, index) => (
+  const productCards = products?.data?.map((product) => (
     <ProductCard key={product._id} product={product} />
   ));
 
@@ -30,6 +30,7 @@ const Menu = () => {
         </Center>
       </div>
     );
+
   if (isError) return <div>Error fetching products.</div>;
 
   return (
