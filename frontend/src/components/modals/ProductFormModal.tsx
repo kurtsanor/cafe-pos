@@ -50,7 +50,12 @@ const ProductFormModal = ({ id, context, innerProps }: ContextModalProps) => {
     validate: {
       name: (val) => (val ? null : "This field is required"),
       category: (val) => (val ? null : "This field is required"),
-      price: (val) => (val ? null : "This field is required"),
+      price: (val) => {
+        if (!val) return "This field is required";
+        if (val < 0) {
+          return "Cannot be negative";
+        }
+      },
     },
   });
 
@@ -69,7 +74,14 @@ const ProductFormModal = ({ id, context, innerProps }: ContextModalProps) => {
     },
   });
 
-  const create = () => {
+  const create = async () => {
+    if (file && file.size > 5 * 1024 * 1024) {
+      notifications.show({
+        message: "File too large. Max limit is 5mb",
+      });
+      return;
+    }
+
     const formData = new FormData();
     formData.append("name", form.values.name);
     formData.append("category", form.values.category);
@@ -86,6 +98,7 @@ const ProductFormModal = ({ id, context, innerProps }: ContextModalProps) => {
     <form onSubmit={form.onSubmit(create)}>
       <Stack gap={"xs"}>
         <Dropzone
+          disabled={createMutation.isPending}
           onDrop={handleDrop}
           onReject={(files) => console.log("rejected", files)}
           accept={IMAGE_MIME_TYPE}
@@ -123,6 +136,7 @@ const ProductFormModal = ({ id, context, innerProps }: ContextModalProps) => {
           size="xs"
           label="Product Name"
           placeholder="Enter product name"
+          disabled={createMutation.isPending}
           {...form.getInputProps("name")}
         />
         <Select
@@ -130,21 +144,30 @@ const ProductFormModal = ({ id, context, innerProps }: ContextModalProps) => {
           label="Product Category"
           placeholder="Select Category"
           data={PRODUCT_CATEGORIES}
+          disabled={createMutation.isPending}
           {...form.getInputProps("category")}
         />
         <NumberInput
           leftSection={<IconCurrencyPeso size={16} />}
           size="xs"
           label="Product Price"
-          min={1}
           placeholder="Enter product price"
+          disabled={createMutation.isPending}
           {...form.getInputProps("price")}
         />
         <Group justify="flex-end">
-          <Button variant="outline" onClick={closeModal}>
+          <Button
+            variant="outline"
+            onClick={closeModal}
+            disabled={createMutation.isPending}
+          >
             Cancel
           </Button>
-          <Button leftSection={<IconCheck size={16} />} type="submit">
+          <Button
+            leftSection={<IconCheck size={16} />}
+            type="submit"
+            loading={createMutation.isPending}
+          >
             Save
           </Button>
         </Group>

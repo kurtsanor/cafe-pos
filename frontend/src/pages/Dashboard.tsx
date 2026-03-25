@@ -1,7 +1,7 @@
-import { Flex, Group, Paper, SimpleGrid } from "@mantine/core";
+import { Flex, Paper, SimpleGrid } from "@mantine/core";
 import StatsCard from "../components/cards/StatsCard";
 import classes from "../styles/Dashboard.module.css";
-import { AreaChart, DonutChart } from "@mantine/charts";
+import { AreaChart, BarChart } from "@mantine/charts";
 
 const data = [
   { date: "Mar 1", Sales: 1200 },
@@ -22,47 +22,50 @@ const data = [
 ];
 
 const productData = [
-  { name: "Latte", value: 142, color: "indigo.6" },
-  { name: "Americano", value: 118, color: "teal.6" },
-  { name: "Matcha Latte", value: 95, color: "violet.6" },
-  { name: "Carbonara", value: 73, color: "cyan.6" },
-  { name: "Espresso", value: 61, color: "blue.6" },
+  { product: "Latte", Orders: 142 },
+  { product: "Americano", Orders: 118 },
+  { product: "Matcha Latte", Orders: 95 },
+  { product: "Carbonara", Orders: 73 },
+  { product: "Espresso", Orders: 61 },
 ];
 
 const Dashboard = () => {
   return (
     <main className={classes.main}>
-      <SimpleGrid cols={4} mb={"md"}>
+      <SimpleGrid cols={4} mb="md">
         <StatsCard diff={12} title="Revenue Today" value={4000} />
         <StatsCard diff={12} title="Products" value={4000} />
         <StatsCard diff={12} title="Total Sales" value={4000} />
         <StatsCard diff={12} title="Net Pay" value={4000} />
       </SimpleGrid>
 
-      <Flex gap={"lg"}>
-        <Paper shadow="xs" p={"md"} flex={3}>
+      <Flex gap="lg">
+        <Paper shadow="xs" p="md" flex={1}>
           <h5 className={classes.chart__title}>Sales Overview</h5>
           <AreaChart
             mt={"lg"}
-            h={200}
+            h={180}
             data={data}
             dataKey="date"
-            series={[{ name: "Sales", color: "blue" }]}
+            series={[{ name: "Sales", color: "green" }]}
             curveType="linear"
+            withDots={false}
             gridAxis="x"
             gridProps={{ xAxisId: "bottom", yAxisId: "left" }}
           />
         </Paper>
         <Paper shadow="xs" p="md" flex={1}>
           <h5 className={classes.chart__title}>Top 5 Most Ordered</h5>
-          <DonutChart
-            w={"100%"}
+          <BarChart
+            mt="lg"
+            h={180}
             data={productData}
-            h={"100%"}
-            paddingAngle={3}
-            withLabels
-            withLabelsLine={false}
-            labelsType="percent"
+            dataKey="product"
+            orientation="vertical"
+            yAxisProps={{ width: 80 }}
+            barProps={{ radius: 10 }}
+            series={[{ name: "Orders", color: "orange.2" }]}
+            gridAxis="none"
           />
         </Paper>
       </Flex>

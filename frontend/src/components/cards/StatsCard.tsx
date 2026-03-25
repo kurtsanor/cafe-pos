@@ -18,7 +18,7 @@ const StatsCard = ({ title, value, diff }: StatsCardInterface) => {
         <IconCoin className={classes.icon} size={22} stroke={1.5} />
       </Group>
 
-      <Group align="flex-end" gap="xs" mt={25}>
+      <Group align="flex-end" gap="xs" mt={"xs"}>
         <h3 className={classes.value}>${value}</h3>
         <Text c={diff > 0 ? "teal" : "red"} className={classes.diff}>
           <span className={classes.diff}> {diff}%</span>
