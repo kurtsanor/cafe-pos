@@ -17,6 +17,9 @@
   flex-direction: column;
   flex: 1;
   overflow-y: auto;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.1),
+    0 1px 2px rgba(0, 0, 0, 0.06);
 }
 
 .footer {

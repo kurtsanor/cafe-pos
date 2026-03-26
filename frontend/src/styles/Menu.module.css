@@ -74,3 +74,7 @@
 .footer__buttons_place {
   background: var(--pos-pop) !important;
 }
+
+.text_dimmed {
+  color: var(--pos-type-faded);
+}

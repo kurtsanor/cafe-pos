@@ -21,13 +21,25 @@ export const createOrder = async (
   }
 };
 
-export const getAllOrders = async (
+export const getOrdersByPage = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
+  // retrive page number from request query
+  const page = req.query.page || 1;
+  let parsedPage;
+
+  if (page) {
+    parsedPage = Number(page);
+  }
+
+  if (!parsedPage || isNaN(parsedPage) || parsedPage < 1) {
+    throw new Error(`Invalid page number: ${page}`);
+  }
+
   try {
-    const orders = await orderService.getAllOrders();
+    const orders = await orderService.getOrdersByPage(parsedPage);
 
     ResponseUtility.success(res, orders, "Orders retrieved succesfully");
   } catch (error) {

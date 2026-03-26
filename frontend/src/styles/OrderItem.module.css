@@ -38,3 +38,20 @@
   color: var(--pos-type-dark);
   font-weight: 500;
 }
+
+.quantity__container {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: solid 1px;
+  border-color: var(--mantine-color-gray-3);
+  border-radius: var(--mantine-radius-md);
+}
+
+.quantity__buttons {
+  color: black !important;
+  border-radius: var(--mantine-radius-md) !important;
+
+  &:hover {
+    background-color: var(--mantine-color-gray-1) !important;
+  }
+}

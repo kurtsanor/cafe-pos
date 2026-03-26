@@ -38,12 +38,6 @@ const Menu = () => {
     queryFn: () => getProductsByPage(page),
   });
 
-  const limit = 10;
-  const total = products?.data?.count;
-  const totalPages = Math.ceil((total || 0) / limit);
-
-  const message = `Showing ${limit * (page - 1) + 1} - ${Math.min(total || 0, limit * page)} of ${total}`;
-
   const [cart, setCart] = useState<OrderItemType[]>([]);
 
   const queryClient = useQueryClient();
@@ -154,6 +148,12 @@ const Menu = () => {
 
   if (isError) return <div>Error fetching products.</div>;
 
+  const limit = 10;
+  const total = products?.data?.count;
+  const totalPages = Math.ceil((total || 0) / limit);
+
+  const message = `Showing ${limit * (page - 1) + 1} - ${Math.min(total || 0, limit * page)} of ${total}`;
+
   return (
     <main className={classes.main}>
       <article className={classes.main__menu}>
@@ -176,7 +176,7 @@ const Menu = () => {
       <aside className={classes.main__order_entry}>
         {/* Order Entry Header */}
         <header className={classes.order_entry__header}>
-          <h4>Order Entry</h4>
+          <h4>Order Items</h4>
         </header>
 
         {/* Order Entry Body */}
@@ -185,8 +185,10 @@ const Menu = () => {
             <Center flex={1}>
               <Stack align="center" gap={5}>
                 <IconShoppingCartOff size={48} stroke={1.5} />
-                <Text>No items in cart</Text>
-                <span>Add products to get started</span>
+                <Text size="sm">No items in cart</Text>
+                <span className={classes.text_dimmed}>
+                  Add products to get started
+                </span>
               </Stack>
             </Center>
           )}

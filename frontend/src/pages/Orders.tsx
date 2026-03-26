@@ -13,31 +13,26 @@ import { IconFilter2, IconSearch } from "@tabler/icons-react";
 import { useState } from "react";
 import OrderDetailDrawer from "../components/drawers/OrderDetailDrawer";
 import { useQuery } from "@tanstack/react-query";
-import { getAllOrders } from "../api/order.api";
+import { getOrdersByPage } from "../api/order.api";
 import type { ApiResponse } from "../types/response/apiResponse";
 import type { Order } from "../types/order/order";
 import { toReadableDate } from "../utils/dateFormatter";
-
-const limit = 10;
-const total = 145;
-const totalPages = Math.ceil(total / limit);
+import type { PaginatedResponse } from "../types/pagination/pagination";
 
 const Orders = () => {
+  const [page, setPage] = useState(1);
   const {
     data: orders,
     isLoading,
     isError,
-  } = useQuery<ApiResponse<Order[]>, Error>({
-    queryKey: ["orders"],
-    queryFn: getAllOrders,
+  } = useQuery<ApiResponse<PaginatedResponse<Order[]>>, Error>({
+    queryKey: ["orders", page],
+    queryFn: () => getOrdersByPage(page),
   });
 
-  const [page, setPage] = useState(1);
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
 
-  const message = `Showing ${limit * (page - 1) + 1} - ${Math.min(total, limit * page)} of ${total}`;
-
-  const orderRows = orders?.data?.map((order) => (
+  const orderRows = orders?.data?.data?.map((order) => (
     <Table.Tr key={order._id} onClick={() => setSelectedOrder(order._id)}>
       <Table.Td>{order.orderId}</Table.Td>
       <Table.Td>{toReadableDate(order.createdAt)}</Table.Td>
@@ -56,6 +51,12 @@ const Orders = () => {
     );
 
   if (isError) return <div>Error fetching products.</div>;
+
+  const limit = 10;
+  const total = orders?.data?.count;
+  const totalPages = Math.ceil((total || 0) / limit);
+
+  const message = `Showing ${limit * (page - 1) + 1} - ${Math.min(total || 0, limit * page)} of ${total}`;
 
   return (
     <main className={classes.main}>
@@ -103,7 +104,15 @@ const Orders = () => {
       </section>
       <footer className={classes.footer}>
         <span>{message}</span>
-        <Pagination size={"sm"} total={totalPages} withPages={false} ml="xs" />
+        <Pagination
+          size={"sm"}
+          total={totalPages}
+          withPages={false}
+          value={page}
+          ml="xs"
+          onPreviousPage={() => setPage((prev) => prev - 1)}
+          onNextPage={() => setPage((prev) => prev + 1)}
+        />
       </footer>
     </main>
   );

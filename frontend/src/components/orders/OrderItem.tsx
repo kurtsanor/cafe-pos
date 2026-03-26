@@ -2,10 +2,10 @@ import { ActionIcon, Image } from "@mantine/core";
 import classes from "../../styles/OrderItem.module.css";
 import { IconTrash } from "@tabler/icons-react";
 import { Quantity } from "./Quantity";
-import type { OrderEntry } from "../../types/order/order";
+import type { OrderItem as IOrderItem } from "../../types/orderItem/orderItem";
 
 interface OrderItemProps {
-  order: OrderEntry;
+  order: IOrderItem;
   handleIncrement: (productId: string) => void;
   handleDecrement: (productId: string) => void;
   removeFromCart: (productId: string) => void;

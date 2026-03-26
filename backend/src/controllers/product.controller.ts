@@ -46,7 +46,11 @@ export const getProductsByPage = async (
     throw new Error(`Invalid page number: ${page}`);
   }
 
-  const products = await productService.getProductsByPage(parsedPage);
+  try {
+    const products = await productService.getProductsByPage(parsedPage);
 
-  ResponseUtility.success(res, products, "Products retrieved");
+    ResponseUtility.success(res, products, "Products retrieved");
+  } catch (error) {
+    next(error);
+  }
 };
