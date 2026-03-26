@@ -1,6 +1,10 @@
 import Order from "../models/Order";
-import { CreateOrderDto } from "../types/orders/order";
+import { CreateOrderDto, Order as MongooseOrder } from "../types/orders/order";
 import * as orderItemService from "../services/orderItem.service";
+
+export const getAllOrders = async (): Promise<MongooseOrder[]> => {
+  return await Order.find().lean();
+};
 
 export const createOrder = async (data: CreateOrderDto) => {
   // create a custom order ID

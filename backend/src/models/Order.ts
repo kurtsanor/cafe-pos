@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
+import { Order } from "../types/orders/order";
 
-const orderSchema = new Schema(
+const orderSchema = new Schema<Order>(
   {
     orderId: {
       type: String,

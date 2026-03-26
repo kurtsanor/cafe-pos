@@ -4,9 +4,24 @@
   background: var(--pos-separators);
   flex: 1;
   padding: 1rem;
+  max-height: 90vh;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
+}
+
+.body__container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--mantine-spacing-md);
+  align-items: center;
 }

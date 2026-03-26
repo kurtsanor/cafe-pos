@@ -10,6 +10,7 @@ export const createOrderItems = async (
   orderNumber: string,
   data: OrderItemDto[],
 ): Promise<MongooseOrderItem[]> => {
+  // Create the order item payload
   const itemBatch = data.map((item) => {
     return {
       orderId: orderId,
@@ -19,5 +20,6 @@ export const createOrderItems = async (
       quantity: item.quantity,
     };
   });
+  // save to database
   return await OrderItem.insertMany(itemBatch);
 };

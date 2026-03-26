@@ -8,3 +8,8 @@ export const createOrder = async (
   const response = await axiosInstance.post("/orders", data);
   return response.data;
 };
+
+export const getAllOrders = async (): Promise<ApiResponse<Order[]>> => {
+  const response = await axiosInstance.get("/orders");
+  return response.data;
+};
