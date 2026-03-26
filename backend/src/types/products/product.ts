@@ -1,18 +1,18 @@
 import { Document } from "mongoose";
 
-export interface Product extends Document {
+interface BaseProduct {
   name: string;
   category: string;
   price: number;
+}
+
+export interface Product extends BaseProduct, Document {
   imageUrl?: string;
   imagePublicId?: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
-export interface CreateProductDto {
-  name: string;
-  category: string;
-  price: number;
+export interface CreateProductDto extends BaseProduct {
   image?: Buffer;
 }

@@ -1,6 +1,7 @@
 import express from "express";
 import helmet from "helmet";
 import productRoutes from "../src/routes/product.routes";
+import orderRoutes from "../src/routes/order.routes";
 import cors from "cors";
 
 // Init express app
@@ -26,6 +27,7 @@ app.use(
 app.use(helmet());
 
 app.use("/products", productRoutes);
+app.use("/orders", orderRoutes);
 
 // Global error handler
 app.use(

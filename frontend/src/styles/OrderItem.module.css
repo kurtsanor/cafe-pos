@@ -3,6 +3,13 @@
   align-items: center;
 }
 
+.item__section_container {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+  align-items: center;
+}
+
 .item__section_labels {
   display: flex;
   flex-direction: column;
@@ -14,7 +21,6 @@
 
 .item__section_right {
   display: flex;
-  flex: 1;
   justify-content: end;
 }
 

@@ -3,6 +3,7 @@ import { CreateProductDto } from "../types/products/product";
 import { Request, Response, NextFunction } from "express";
 import * as ResponseUtility from "../utils/response.util";
 import { MulterRequest } from "../types/request/multerRequest";
+import { OrderItemDto } from "../types/orderItems/orderItems";
 
 // Create a mongoose product
 export const createProduct = async (

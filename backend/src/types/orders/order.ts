@@ -1,4 +1,6 @@
 import { Document } from "mongoose";
+import { Product } from "../products/product";
+import { OrderItemDto } from "../orderItems/orderItems";
 
 export interface Order extends Document {
   orderId: string;
@@ -6,4 +8,8 @@ export interface Order extends Document {
   itemCount: number;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface CreateOrderDto {
+  orderItems: OrderItemDto[];
 }

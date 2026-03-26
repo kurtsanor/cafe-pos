@@ -28,32 +28,35 @@ const OrderItem = ({
         h={50}
         w={50}
       />
-      <section className={classes.item__section_labels}>
-        <p className={classes.item__title} title={order.product.name}>
-          {order.product.name}
-        </p>
-        <Quantity
-          order={order}
-          handleIncrement={handleIncrement}
-          handleDecrement={handleDecrement}
-          removeFromCart={removeFromCart}
-        />
-        {/* <NumberInput size="xs" w={55} allowNegative={false} max={999} mt={2} /> */}
+      <section className={classes.item__section_container}>
+        <div className={classes.item__section_labels}>
+          <p className={classes.item__title} title={order.product.name}>
+            {order.product.name}
+          </p>
+          <Quantity
+            order={order}
+            handleIncrement={handleIncrement}
+            handleDecrement={handleDecrement}
+            removeFromCart={removeFromCart}
+          />
+          {/* <NumberInput size="xs" w={55} allowNegative={false} max={999} mt={2} /> */}
+        </div>
+
+        <div className={classes.item__section_right}>
+          <p className={classes.item__price}>
+            ₱{order.product.price * order.quantity}
+          </p>
+          <ActionIcon
+            variant="light"
+            color="red"
+            size={18}
+            ml="xs"
+            onClick={() => removeFromCart(order.product._id)}
+          >
+            <IconTrash />
+          </ActionIcon>
+        </div>
       </section>
-      <div className={classes.item__section_right}>
-        <p className={classes.item__price}>
-          ₱{order.product.price * order.quantity}
-        </p>
-        <ActionIcon
-          variant="light"
-          color="red"
-          size={18}
-          ml="xs"
-          onClick={() => removeFromCart(order.product._id)}
-        >
-          <IconTrash />
-        </ActionIcon>
-      </div>
     </div>
   );
 };

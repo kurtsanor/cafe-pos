@@ -2,17 +2,21 @@ import { Button, Center, Loader, SimpleGrid, Stack, Text } from "@mantine/core";
 import ProductCard from "../components/cards/ProductCard";
 import classes from "../styles/Menu.module.css";
 import {
+  IconCheckFilled,
   IconCircleArrowRight,
   IconCircleX,
   IconShoppingCartOff,
 } from "@tabler/icons-react";
 import OrderItem from "../components/orders/OrderItem";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAllProducts } from "../api/product.api";
 import type { Product } from "../types/product/product";
 import type { ApiResponse } from "../types/response/apiResponse";
 import { useState } from "react";
-import type { OrderEntry } from "../types/order/order";
+import type { CreateOrderDto, Order } from "../types/order/order";
+import { createOrder } from "../api/order.api";
+import { notifications } from "@mantine/notifications";
+import type { OrderItem as OrderItemType } from "../types/orderItem/orderItem";
 
 const Menu = () => {
   const {
@@ -24,7 +28,9 @@ const Menu = () => {
     queryFn: getAllProducts,
   });
 
-  const [cart, setCart] = useState<OrderEntry[]>([]);
+  const [cart, setCart] = useState<OrderItemType[]>([]);
+
+  const queryClient = useQueryClient();
 
   const totalPrice = cart.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
@@ -84,6 +90,27 @@ const Menu = () => {
       };
       return [...prev, orderItem];
     });
+  };
+
+  const createMutation = useMutation<ApiResponse<Order>, Error, CreateOrderDto>(
+    {
+      mutationFn: createOrder,
+      onSuccess: (response) => {
+        queryClient.invalidateQueries({ queryKey: ["orders"] });
+        notifications.show({
+          icon: <IconCheckFilled />,
+          message: response.message,
+        });
+        setCart([]);
+      },
+    },
+  );
+
+  const handlePlaceOrder = () => {
+    const payload: CreateOrderDto = {
+      orderItems: cart,
+    };
+    createMutation.mutate(payload);
   };
 
   const productCards = products?.data?.map((product) => (
@@ -149,7 +176,7 @@ const Menu = () => {
               fullWidth
               className={classes.footer__buttons_clear}
               leftSection={<IconCircleX size={16} stroke={1.5} />}
-              disabled={cart.length < 1}
+              disabled={cart.length < 1 || createMutation.isPending}
               onClick={() => setCart([])}
             >
               Clear Order
@@ -159,7 +186,8 @@ const Menu = () => {
               className={classes.footer__buttons_place}
               leftSection={<IconCircleArrowRight size={16} stroke={1.5} />}
               disabled={cart.length < 1}
-              onClick={() => console.log(cart)}
+              onClick={handlePlaceOrder}
+              loading={createMutation.isPending}
             >
               Place Order
             </Button>
