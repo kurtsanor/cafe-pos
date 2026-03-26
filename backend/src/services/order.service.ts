@@ -3,7 +3,7 @@ import { CreateOrderDto, Order as MongooseOrder } from "../types/orders/order";
 import * as orderItemService from "../services/orderItem.service";
 
 export const getAllOrders = async (): Promise<MongooseOrder[]> => {
-  return await Order.find().lean();
+  return await Order.find().sort({ createdAt: -1 }).lean();
 };
 
 export const createOrder = async (data: CreateOrderDto) => {

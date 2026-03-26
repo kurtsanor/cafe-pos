@@ -1,4 +1,12 @@
-import { Button, Center, Loader, SimpleGrid, Stack, Text } from "@mantine/core";
+import {
+  Button,
+  Center,
+  Loader,
+  Pagination,
+  SimpleGrid,
+  Stack,
+  Text,
+} from "@mantine/core";
 import ProductCard from "../components/cards/ProductCard";
 import classes from "../styles/Menu.module.css";
 import {
@@ -9,7 +17,7 @@ import {
 } from "@tabler/icons-react";
 import OrderItem from "../components/orders/OrderItem";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getAllProducts } from "../api/product.api";
+import { getProductsByPage } from "../api/product.api";
 import type { Product } from "../types/product/product";
 import type { ApiResponse } from "../types/response/apiResponse";
 import { useState } from "react";
@@ -17,16 +25,24 @@ import type { CreateOrderDto, Order } from "../types/order/order";
 import { createOrder } from "../api/order.api";
 import { notifications } from "@mantine/notifications";
 import type { OrderItem as OrderItemType } from "../types/orderItem/orderItem";
+import type { PaginatedResponse } from "../types/pagination/pagination";
 
 const Menu = () => {
+  const [page, setPage] = useState(1);
   const {
     data: products,
     isLoading,
     isError,
-  } = useQuery<ApiResponse<Product[]>, Error>({
-    queryKey: ["products"],
-    queryFn: getAllProducts,
+  } = useQuery<ApiResponse<PaginatedResponse<Product[]>>, Error>({
+    queryKey: ["products", page],
+    queryFn: () => getProductsByPage(page),
   });
+
+  const limit = 10;
+  const total = products?.data?.count;
+  const totalPages = Math.ceil((total || 0) / limit);
+
+  const message = `Showing ${limit * (page - 1) + 1} - ${Math.min(total || 0, limit * page)} of ${total}`;
 
   const [cart, setCart] = useState<OrderItemType[]>([]);
 
@@ -113,7 +129,7 @@ const Menu = () => {
     createMutation.mutate(payload);
   };
 
-  const productCards = products?.data?.map((product) => (
+  const productCards = products?.data?.data?.map((product) => (
     <ProductCard key={product._id} product={product} onClick={addToOrder} />
   ));
 
@@ -142,6 +158,18 @@ const Menu = () => {
     <main className={classes.main}>
       <article className={classes.main__menu}>
         <SimpleGrid cols={{ base: 1, xs: 2, md: 4 }}>{productCards}</SimpleGrid>
+        <footer className={classes.footer}>
+          <span>{message}</span>
+          <Pagination
+            size={"sm"}
+            total={totalPages}
+            withPages={false}
+            value={page}
+            ml="xs"
+            onPreviousPage={() => setPage((prev) => prev - 1)}
+            onNextPage={() => setPage((prev) => prev + 1)}
+          />
+        </footer>
       </article>
 
       {/* Order Entry Container */}

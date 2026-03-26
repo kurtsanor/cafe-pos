@@ -29,12 +29,24 @@ export const createProduct = async (
   }
 };
 
-export const getAllProducts = async (
+export const getProductsByPage = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
-  const products = await productService.getAllProducts();
+  // retrive page number from request query
+  const page = req.query.page;
+  let parsedPage;
+
+  if (page) {
+    parsedPage = Number(page);
+  }
+
+  if (!parsedPage || isNaN(parsedPage) || parsedPage < 1) {
+    throw new Error(`Invalid page number: ${page}`);
+  }
+
+  const products = await productService.getProductsByPage(parsedPage);
 
   ResponseUtility.success(res, products, "Products retrieved");
 };

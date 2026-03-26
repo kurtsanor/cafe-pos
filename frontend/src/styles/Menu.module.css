@@ -47,6 +47,13 @@
     light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 }
 
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--mantine-spacing-md);
+  align-items: center;
+}
+
 .footer__total {
   display: flex;
   justify-content: space-between;

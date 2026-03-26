@@ -24,26 +24,23 @@ import { useState } from "react";
 import { modals } from "@mantine/modals";
 import { MODAL_KEYS } from "../constants/modals";
 import { useQuery } from "@tanstack/react-query";
-import { getAllProducts } from "../api/product.api";
+import { getProductsByPage } from "../api/product.api";
 import type { ApiResponse } from "../types/response/apiResponse";
 import type { Product } from "../types/product/product";
-
-const limit = 10;
-const total = 145;
-const totalPages = Math.ceil(total / limit);
+import type { PaginatedResponse } from "../types/pagination/pagination";
 
 const Products = () => {
+  // controlls pagination number
+  const [page, setPage] = useState(1);
+
   const {
     data: products,
     isLoading,
     isError,
-  } = useQuery<ApiResponse<Product[]>, Error>({
-    queryKey: ["products"],
-    queryFn: getAllProducts,
+  } = useQuery<ApiResponse<PaginatedResponse<Product[]>>, Error>({
+    queryKey: ["products", page],
+    queryFn: () => getProductsByPage(page),
   });
-
-  const [page, setPage] = useState(1);
-  const message = `Showing ${limit * (page - 1) + 1} - ${Math.min(total, limit * page)} of ${total}`;
 
   // Handles opening of product form modal
   const openProductModal = () => {
@@ -55,7 +52,7 @@ const Products = () => {
     });
   };
 
-  const productRows = products?.data?.map((product) => (
+  const productRows = products?.data?.data.map((product) => (
     <Table.Tr key={product._id}>
       <Table.Td>
         <Image
@@ -106,6 +103,13 @@ const Products = () => {
 
   if (isError) return <div>Error fetching products.</div>;
 
+  // transfer below because these are safe since data is guaranteed to exist
+  const limit = 10;
+  const total = products?.data?.count;
+  const totalPages = Math.ceil((total || 0) / limit);
+
+  const message = `Showing ${limit * (page - 1) + 1} - ${Math.min(total || 0, limit * page)} of ${total}`;
+
   return (
     <main className={classes.main}>
       <header className={classes.header}>
@@ -148,7 +152,15 @@ const Products = () => {
       </section>
       <footer className={classes.footer}>
         <span>{message}</span>
-        <Pagination size={"sm"} total={totalPages} withPages={false} ml="xs" />
+        <Pagination
+          size={"sm"}
+          total={totalPages}
+          withPages={false}
+          value={page}
+          ml="xs"
+          onPreviousPage={() => setPage((prev) => prev - 1)}
+          onNextPage={() => setPage((prev) => prev + 1)}
+        />
       </footer>
     </main>
   );

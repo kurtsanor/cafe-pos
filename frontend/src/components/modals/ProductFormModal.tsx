@@ -72,6 +72,11 @@ const ProductFormModal = ({ id, context, innerProps }: ContextModalProps) => {
         message: response.message,
       });
     },
+    onError: (error) => {
+      notifications.show({
+        message: error.message,
+      });
+    },
   });
 
   const create = async () => {
@@ -100,7 +105,11 @@ const ProductFormModal = ({ id, context, innerProps }: ContextModalProps) => {
         <Dropzone
           disabled={createMutation.isPending}
           onDrop={handleDrop}
-          onReject={(files) => console.log("rejected", files)}
+          onReject={(files) => {
+            notifications.show({
+              message: files[0].errors[0].message,
+            });
+          }}
           accept={IMAGE_MIME_TYPE}
           maxSize={5 * 1024 ** 2}
           maxFiles={1}
