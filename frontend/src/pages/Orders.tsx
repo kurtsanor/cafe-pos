@@ -30,10 +30,10 @@ const Orders = () => {
     queryFn: () => getOrdersByPage(page),
   });
 
-  const [selectedOrder, setSelectedOrder] = useState<any>(null);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
   const orderRows = orders?.data?.data?.map((order) => (
-    <Table.Tr key={order._id} onClick={() => setSelectedOrder(order._id)}>
+    <Table.Tr key={order._id} onClick={() => setSelectedOrder(order)}>
       <Table.Td>{order.orderId}</Table.Td>
       <Table.Td>{toReadableDate(order.createdAt)}</Table.Td>
       <Table.Td>{order.itemCount}</Table.Td>
@@ -69,7 +69,7 @@ const Orders = () => {
         position="right"
         onClose={() => setSelectedOrder(null)}
       >
-        <OrderDetailDrawer />
+        <OrderDetailDrawer order={selectedOrder!} />
       </Drawer>
       <header className={classes.header}>
         <h3>Order History</h3>

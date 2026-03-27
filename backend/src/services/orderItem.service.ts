@@ -23,3 +23,10 @@ export const createOrderItems = async (
   // save to database
   return await OrderItem.insertMany(itemBatch);
 };
+
+export const getItemsByOrderId = async (orderId: string) => {
+  return await OrderItem.find({ orderId: orderId }).populate({
+    path: "productId",
+    select: "name",
+  });
+};

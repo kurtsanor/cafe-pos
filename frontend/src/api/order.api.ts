@@ -1,5 +1,9 @@
 import axiosInstance from "../config/axios";
 import type { CreateOrderDto, Order } from "../types/order/order";
+import type {
+  MongooseOrderItem,
+  OrderItem,
+} from "../types/orderItem/orderItem";
 import type { PaginatedResponse } from "../types/pagination/pagination";
 import type { ApiResponse } from "../types/response/apiResponse";
 
@@ -16,5 +20,12 @@ export const getOrdersByPage = async (
   const response = await axiosInstance.get("/orders", {
     params: { page },
   });
+  return response.data;
+};
+
+export const getItemsByOrderId = async (
+  id: string,
+): Promise<ApiResponse<MongooseOrderItem[]>> => {
+  const response = await axiosInstance.get(`/orders/${id}/items`);
   return response.data;
 };

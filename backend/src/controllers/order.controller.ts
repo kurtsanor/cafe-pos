@@ -1,5 +1,6 @@
 import * as ResponseUtility from "../utils/response.util";
 import * as orderService from "../services/order.service";
+import * as orderItemService from "../services/orderItem.service";
 import { Request, Response, NextFunction } from "express";
 import { CreateOrderDto } from "../types/orders/order";
 
@@ -42,6 +43,26 @@ export const getOrdersByPage = async (
     const orders = await orderService.getOrdersByPage(parsedPage);
 
     ResponseUtility.success(res, orders, "Orders retrieved succesfully");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getOrderItemsByOrderId = async (
+  req: Request<{ id: string }, {}, {}>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const orderId = req.params.id;
+
+    const orderItems = await orderItemService.getItemsByOrderId(orderId);
+
+    ResponseUtility.success(
+      res,
+      orderItems,
+      "Order items retrieved successfully",
+    );
   } catch (error) {
     next(error);
   }

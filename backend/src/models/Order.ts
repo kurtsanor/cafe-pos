@@ -7,6 +7,7 @@ const orderSchema = new Schema<Order>(
       type: String,
       required: [true, "Order ID is required"],
       trim: true,
+      unique: true,
     },
     totalAmount: {
       type: Number,
