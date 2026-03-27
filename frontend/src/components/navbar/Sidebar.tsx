@@ -1,9 +1,8 @@
-import { useState } from "react";
 import { IconHome2, IconLogout } from "@tabler/icons-react";
 import { Stack, UnstyledButton } from "@mantine/core";
 import classes from "../../styles/Navbar.module.css";
 import { sidebarRoutes } from "../../constants/routes";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 interface SidebarLinkProps {
   icon: typeof IconHome2;

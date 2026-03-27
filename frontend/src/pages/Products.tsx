@@ -13,6 +13,7 @@ import {
 } from "@mantine/core";
 import classes from "../styles/Products.module.css";
 import {
+  IconCheckFilled,
   IconDotsVertical,
   IconEdit,
   IconFilter2,
@@ -23,11 +24,12 @@ import {
 import { useState } from "react";
 import { modals } from "@mantine/modals";
 import { MODAL_KEYS } from "../constants/modals";
-import { useQuery } from "@tanstack/react-query";
-import { getProductsByPage } from "../api/product.api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { deleteProductById, getProductsByPage } from "../api/product.api";
 import type { ApiResponse } from "../types/response/apiResponse";
 import type { Product } from "../types/product/product";
 import type { PaginatedResponse } from "../types/pagination/pagination";
+import { notifications } from "@mantine/notifications";
 
 const Products = () => {
   // controlls pagination number
@@ -42,6 +44,8 @@ const Products = () => {
     queryFn: () => getProductsByPage(page),
   });
 
+  const queryClient = useQueryClient();
+
   // Handles opening of product form modal
   const openProductModal = () => {
     modals.openContextModal({
@@ -50,6 +54,29 @@ const Products = () => {
       innerProps: {},
       centered: true,
     });
+  };
+
+  const deleteMutation = useMutation<ApiResponse<void>, Error, string>({
+    mutationFn: deleteProductById,
+    onSuccess: (response) => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      notifications.show({
+        color: "var(--pos-pop)",
+        icon: <IconCheckFilled />,
+        message: "Product has been deleted",
+        withBorder: true,
+        position: "bottom-left",
+      });
+    },
+    onError: (error) => {
+      notifications.show({
+        message: error.message,
+      });
+    },
+  });
+
+  const deleteProduct = (id: string) => {
+    deleteMutation.mutate(id);
   };
 
   const productRows = products?.data?.data.map((product) => (
@@ -80,10 +107,18 @@ const Products = () => {
             </ActionIcon>
           </Menu.Target>
           <Menu.Dropdown>
-            <Menu.Item leftSection={<IconEdit size={16} />}>
+            <Menu.Item
+              leftSection={<IconEdit size={17} />}
+              disabled={deleteMutation.isPending}
+            >
               <span>Edit</span>
             </Menu.Item>
-            <Menu.Item color="red" leftSection={<IconTrash size={16} />}>
+            <Menu.Item
+              color="red"
+              leftSection={<IconTrash size={17} />}
+              onClick={() => deleteProduct(product._id)}
+              disabled={deleteMutation.isPending}
+            >
               <span>Delete</span>
             </Menu.Item>
           </Menu.Dropdown>

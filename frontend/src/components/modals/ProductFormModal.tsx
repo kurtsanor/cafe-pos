@@ -10,7 +10,12 @@ import {
 } from "@mantine/core";
 import type { ContextModalProps } from "@mantine/modals";
 import { PRODUCT_CATEGORIES } from "../../constants/products";
-import { IconCheck, IconCurrencyPeso, IconPhoto } from "@tabler/icons-react";
+import {
+  IconCheck,
+  IconCheckFilled,
+  IconCurrencyPeso,
+  IconPhoto,
+} from "@tabler/icons-react";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useEffect, useState } from "react";
 import { useForm } from "@mantine/form";
@@ -69,7 +74,11 @@ const ProductFormModal = ({ id, context, innerProps }: ContextModalProps) => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
       closeModal();
       notifications.show({
+        color: "var(--pos-pop)",
+        icon: <IconCheckFilled />,
         message: response.message,
+        withBorder: true,
+        position: "bottom-left",
       });
     },
     onError: (error) => {

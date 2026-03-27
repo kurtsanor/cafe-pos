@@ -43,7 +43,7 @@
 
 .link__label {
   color: var(--pos-type-faded);
-  font-size: 11px;
+  font-size: 12px;
 
   &[data-active] {
     color: var(--pos-accent);

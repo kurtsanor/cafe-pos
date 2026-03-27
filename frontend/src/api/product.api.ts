@@ -18,3 +18,12 @@ export const createProduct = async (
   const response = await axiosInstance.post("/products", data);
   return response.data;
 };
+
+export const deleteProductById = async (
+  id: string,
+): Promise<ApiResponse<void>> => {
+  const response = await axiosInstance.delete(`/products/${id}`);
+  console.log(response);
+
+  return response.data;
+};

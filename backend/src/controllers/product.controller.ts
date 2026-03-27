@@ -54,3 +54,18 @@ export const getProductsByPage = async (
     next(error);
   }
 };
+
+export const deleteProductById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  const productId = req.params.id;
+  try {
+    await productService.deleteProductById(productId.toString());
+
+    ResponseUtility.deleted(res, null, "Product successfully deleted");
+  } catch (error) {
+    next(error);
+  }
+};

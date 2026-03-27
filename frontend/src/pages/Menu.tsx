@@ -108,8 +108,11 @@ const Menu = () => {
       onSuccess: (response) => {
         queryClient.invalidateQueries({ queryKey: ["orders"] });
         notifications.show({
+          color: "var(--pos-pop)",
           icon: <IconCheckFilled />,
           message: response.message,
+          withBorder: true,
+          position: "bottom-left",
         });
         setCart([]);
       },

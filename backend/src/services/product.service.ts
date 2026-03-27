@@ -4,11 +4,7 @@ import {
 } from "../types/products/product";
 import Product from "../models/Product";
 import * as uploadService from "../services/upload.service";
-import {
-  DEFAULT_PAGE_NUMBER,
-  DEFAULT_PAGE_SIZE,
-  PRODUCTS_PAGE_SIZE,
-} from "../config/pagination";
+import { DEFAULT_PAGE_NUMBER, PRODUCTS_PAGE_SIZE } from "../config/pagination";
 import { PaginatedResponse } from "../types/pagination/pagination";
 
 export const createProduct = async (
@@ -58,4 +54,8 @@ export const getProductsByPage = async (
   };
 
   return paginatedResult;
+};
+
+export const deleteProductById = async (productId: string) => {
+  await Product.deleteOne({ _id: productId });
 };

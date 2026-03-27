@@ -1,4 +1,5 @@
-import { createTheme, Drawer } from "@mantine/core";
+import { createTheme, Drawer, Notification } from "@mantine/core";
+import { Notifications, notifications } from "@mantine/notifications";
 
 const POS_ACCENT = "#fc8019";
 
@@ -43,6 +44,24 @@ export const theme = createTheme({
           fontSize: "18px",
           fontWeight: 500,
           color: "#171826",
+        },
+      },
+    },
+    Notification: {
+      styles: {
+        root: {
+          display: "inline-flex",
+          maxWidth: "400px",
+        },
+        description: {
+          fontSize: "14px",
+        },
+        title: {
+          fontSize: "var(--mantine-font-size-xs)",
+        },
+        icon: {
+          width: 25,
+          height: 25,
         },
       },
     },
