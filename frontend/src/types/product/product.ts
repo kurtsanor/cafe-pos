@@ -16,3 +16,8 @@ export interface CreateProductDto {
   imageUrl?: string;
   imagePublicId?: string;
 }
+
+export type UpdateProductInput = {
+  id: string;
+  data: FormData;
+};

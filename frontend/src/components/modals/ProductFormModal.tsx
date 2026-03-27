@@ -15,23 +15,35 @@ import {
   IconCheckFilled,
   IconCurrencyPeso,
   IconPhoto,
+  IconX,
 } from "@tabler/icons-react";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useEffect, useState } from "react";
 import { useForm } from "@mantine/form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { Product } from "../../types/product/product";
-import { createProduct } from "../../api/product.api";
+import type { Product, UpdateProductInput } from "../../types/product/product";
+import { createProduct, updateProduct } from "../../api/product.api";
 import type { ApiResponse } from "../../types/response/apiResponse";
 import { notifications } from "@mantine/notifications";
 
-const ProductFormModal = ({ id, context, innerProps }: ContextModalProps) => {
+const ProductFormModal = ({
+  id,
+  context,
+  innerProps,
+}: ContextModalProps<{ product: Product }>) => {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
 
   const queryClient = useQueryClient();
 
+  const isEditMode = !!innerProps.product;
+
+  const isUnchangedImage = preview === innerProps.product?.imageUrl;
+
   useEffect(() => {
+    if (!preview && innerProps.product?.imageUrl) {
+      setPreview(innerProps.product.imageUrl);
+    }
     return () => {
       if (preview) URL.revokeObjectURL(preview); // cleanup on unmount
     };
@@ -48,9 +60,9 @@ const ProductFormModal = ({ id, context, innerProps }: ContextModalProps) => {
 
   const form = useForm({
     initialValues: {
-      name: "",
-      category: "",
-      price: 0, // or "" if you want empty initially
+      name: innerProps.product?.name || "",
+      category: innerProps.product?.category || "",
+      price: innerProps.product?.price || 0,
     },
     validate: {
       name: (val) => (val ? null : "This field is required"),
@@ -71,8 +83,13 @@ const ProductFormModal = ({ id, context, innerProps }: ContextModalProps) => {
   >({
     mutationFn: createProduct,
     onSuccess: (response) => {
+      // invalidate the cache
       queryClient.invalidateQueries({ queryKey: ["products"] });
+
+      // close modal after refreshing data
       closeModal();
+
+      // show notification
       notifications.show({
         color: "var(--pos-pop)",
         icon: <IconCheckFilled />,
@@ -88,10 +105,44 @@ const ProductFormModal = ({ id, context, innerProps }: ContextModalProps) => {
     },
   });
 
+  const updateMutation = useMutation<
+    ApiResponse<Product>, // return type
+    Error, // type of error
+    UpdateProductInput // input type
+  >({
+    mutationFn: updateProduct,
+    onSuccess: (response) => {
+      // invalidate the cache
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+
+      // close modal after refreshing data
+      closeModal();
+
+      // show notification
+      notifications.show({
+        color: "var(--pos-pop)",
+        icon: <IconCheckFilled />,
+        message: response.message,
+        withBorder: true,
+        position: "bottom-left",
+      });
+    },
+    onError: (error) => {
+      notifications.show({
+        message: error.message,
+      });
+    },
+  });
+
+  const isPending = createMutation.isPending || updateMutation.isPending;
+
   const create = async () => {
     if (file && file.size > 5 * 1024 * 1024) {
       notifications.show({
-        message: "File too large. Max limit is 5mb",
+        color: "red",
+        icon: <IconX />,
+        message: "File too large. Max size is 5 mb",
+        position: "bottom-left",
       });
       return;
     }
@@ -101,8 +152,27 @@ const ProductFormModal = ({ id, context, innerProps }: ContextModalProps) => {
     formData.append("category", form.values.category);
     formData.append("price", String(form.values.price));
 
-    if (file) {
+    if (file && !isEditMode) {
       formData.append("image", file);
+    }
+
+    if (
+      isEditMode &&
+      !isUnchangedImage &&
+      file &&
+      innerProps.product.imagePublicId
+    ) {
+      formData.append("image", file);
+      formData.append("imagePublicId", innerProps.product.imagePublicId);
+    }
+
+    if (isEditMode) {
+      const updatePayload: UpdateProductInput = {
+        id: innerProps.product?._id,
+        data: formData,
+      };
+      updateMutation.mutate(updatePayload);
+      return;
     }
 
     createMutation.mutate(formData);
@@ -112,11 +182,14 @@ const ProductFormModal = ({ id, context, innerProps }: ContextModalProps) => {
     <form onSubmit={form.onSubmit(create)}>
       <Stack gap={"xs"}>
         <Dropzone
-          disabled={createMutation.isPending}
+          disabled={isPending}
           onDrop={handleDrop}
           onReject={(files) => {
             notifications.show({
+              color: "red",
+              icon: <IconX />,
               message: files[0].errors[0].message,
+              position: "bottom-left",
             });
           }}
           accept={IMAGE_MIME_TYPE}
@@ -154,7 +227,7 @@ const ProductFormModal = ({ id, context, innerProps }: ContextModalProps) => {
           size="xs"
           label="Product Name"
           placeholder="Enter product name"
-          disabled={createMutation.isPending}
+          disabled={isPending}
           {...form.getInputProps("name")}
         />
         <Select
@@ -162,7 +235,7 @@ const ProductFormModal = ({ id, context, innerProps }: ContextModalProps) => {
           label="Product Category"
           placeholder="Select Category"
           data={PRODUCT_CATEGORIES}
-          disabled={createMutation.isPending}
+          disabled={isPending}
           {...form.getInputProps("category")}
         />
         <NumberInput
@@ -170,23 +243,19 @@ const ProductFormModal = ({ id, context, innerProps }: ContextModalProps) => {
           size="xs"
           label="Product Price"
           placeholder="Enter product price"
-          disabled={createMutation.isPending}
+          disabled={isPending}
           {...form.getInputProps("price")}
         />
         <Group justify="flex-end">
-          <Button
-            variant="outline"
-            onClick={closeModal}
-            disabled={createMutation.isPending}
-          >
+          <Button variant="outline" onClick={closeModal} disabled={isPending}>
             Cancel
           </Button>
           <Button
             leftSection={<IconCheck size={16} />}
             type="submit"
-            loading={createMutation.isPending}
+            loading={isPending}
           >
-            Save
+            {isEditMode ? "Update" : "Save"}
           </Button>
         </Group>
       </Stack>

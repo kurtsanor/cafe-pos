@@ -1,6 +1,7 @@
 import {
   CreateProductDto,
   Product as MongooseProduct,
+  UpdateProductDto,
 } from "../types/products/product";
 import Product from "../models/Product";
 import * as uploadService from "../services/upload.service";
@@ -54,6 +55,32 @@ export const getProductsByPage = async (
   };
 
   return paginatedResult;
+};
+
+export const updateProduct = async (data: UpdateProductDto) => {
+  // if product image was changed, upload a new one
+  if (data.image) {
+    const uploadResult = await uploadService.uploadProductImage(
+      data.image,
+      data.imagePublicId,
+    );
+    data.imageUrl = uploadResult.secure_url;
+    data.imagePublicId = uploadResult.public_id;
+  }
+
+  return await Product.findOneAndUpdate(
+    {
+      _id: data._id,
+    },
+    {
+      name: data.name,
+      category: data.category,
+      price: data.price,
+      imageUrl: data.imageUrl,
+      imagePublicId: data.imagePublicId,
+    },
+    { returnDocument: "after", runValidators: true },
+  );
 };
 
 export const deleteProductById = async (productId: string) => {

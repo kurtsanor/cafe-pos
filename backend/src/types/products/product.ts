@@ -16,3 +16,10 @@ export interface Product extends BaseProduct, Document {
 export interface CreateProductDto extends BaseProduct {
   image?: Buffer;
 }
+
+export interface UpdateProductDto extends BaseProduct {
+  _id: string;
+  imageUrl?: string;
+  imagePublicId?: string;
+  image?: Buffer;
+}

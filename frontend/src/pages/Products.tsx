@@ -56,6 +56,15 @@ const Products = () => {
     });
   };
 
+  const openEditModal = (product: Product) => {
+    modals.openContextModal({
+      title: "Edit Product",
+      modal: MODAL_KEYS.ProductForm,
+      innerProps: { product },
+      centered: true,
+    });
+  };
+
   const deleteMutation = useMutation<ApiResponse<void>, Error, string>({
     mutationFn: deleteProductById,
     onSuccess: (response) => {
@@ -110,6 +119,7 @@ const Products = () => {
             <Menu.Item
               leftSection={<IconEdit size={17} />}
               disabled={deleteMutation.isPending}
+              onClick={() => openEditModal(product)}
             >
               <span>Edit</span>
             </Menu.Item>

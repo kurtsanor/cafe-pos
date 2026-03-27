@@ -1,8 +1,11 @@
 import * as productService from "../services/product.service";
-import { CreateProductDto } from "../types/products/product";
+import { CreateProductDto, UpdateProductDto } from "../types/products/product";
 import { Request, Response, NextFunction } from "express";
 import * as ResponseUtility from "../utils/response.util";
-import { MulterRequest } from "../types/request/multerRequest";
+import {
+  MulterRequest,
+  MulterRequestUpdate,
+} from "../types/request/multerRequest";
 import { OrderItemDto } from "../types/orderItems/orderItems";
 
 // Create a mongoose product
@@ -50,6 +53,28 @@ export const getProductsByPage = async (
     const products = await productService.getProductsByPage(parsedPage);
 
     ResponseUtility.success(res, products, "Products retrieved");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateProduct = async (
+  req: MulterRequestUpdate,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const id = req.params.id;
+
+    const productData: UpdateProductDto = {
+      ...req.body,
+      _id: id,
+      image: req.file?.buffer,
+    };
+
+    const result = await productService.updateProduct(productData);
+
+    ResponseUtility.success(res, result, "Product updated successfully");
   } catch (error) {
     next(error);
   }
