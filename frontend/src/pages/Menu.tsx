@@ -160,7 +160,9 @@ const Menu = () => {
   return (
     <main className={classes.main}>
       <article className={classes.main__menu}>
-        <SimpleGrid cols={{ base: 1, xs: 2, md: 4 }}>{productCards}</SimpleGrid>
+        <SimpleGrid cols={{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }}>
+          {productCards}
+        </SimpleGrid>
         <footer className={classes.footer}>
           <span>{message}</span>
           <Pagination
