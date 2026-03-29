@@ -7,7 +7,7 @@ const Topbar = () => {
   return (
     <header className={classes.topbar}>
       <Group gap={5}>
-        <Image src={logo} fit="cover" h={40} w={45} />
+        <Image src={logo} fit="cover" h={30} w={40} />
         <h3 className={classes.topbar__title}>SunbrewCafé</h3>
       </Group>
 

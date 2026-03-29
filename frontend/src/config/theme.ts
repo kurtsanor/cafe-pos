@@ -1,4 +1,9 @@
-import { createTheme, Drawer, Notification } from "@mantine/core";
+import {
+  createTheme,
+  Drawer,
+  Notification,
+  SegmentedControl,
+} from "@mantine/core";
 import { Notifications, notifications } from "@mantine/notifications";
 
 const POS_ACCENT = "#fc8019";
@@ -62,6 +67,30 @@ export const theme = createTheme({
         icon: {
           width: 25,
           height: 25,
+        },
+      },
+    },
+    SegmentedControl: {
+      styles: {
+        root: {
+          backgroundColor: "white",
+        },
+        indicator: {
+          backgroundColor: "var(--pos-highlight)",
+          border: "solid 1px",
+          borderColor: "var(--pos-accent)",
+          boxShadow: "none",
+        },
+        label: {
+          // Target the active state specifically
+          "&[data-active]": {
+            color: "white",
+          },
+
+          // Target the hover state
+          "&:hover": {
+            color: "black",
+          },
         },
       },
     },

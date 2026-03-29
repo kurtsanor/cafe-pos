@@ -12,3 +12,8 @@ export interface Order extends Document {
 export interface CreateOrderDto {
   orderItems: OrderItemDto[];
 }
+
+export interface DailySales {
+  date: string; // e.g., "2026-03-01"
+  Sales: number;
+}

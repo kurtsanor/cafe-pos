@@ -3,6 +3,7 @@ import {
   Center,
   Loader,
   Pagination,
+  SegmentedControl,
   SimpleGrid,
   Stack,
   Text,
@@ -26,6 +27,7 @@ import { createOrder } from "../api/order.api";
 import { notifications } from "@mantine/notifications";
 import type { OrderItem as OrderItemType } from "../types/orderItem/orderItem";
 import type { PaginatedResponse } from "../types/pagination/pagination";
+import { PRODUCT_CATEGORIES } from "../constants/products";
 
 const Menu = () => {
   const [page, setPage] = useState(1);
@@ -160,6 +162,12 @@ const Menu = () => {
   return (
     <main className={classes.main}>
       <article className={classes.main__menu}>
+        <SegmentedControl
+          mb={"md"}
+          withItemsBorders={false}
+          data={PRODUCT_CATEGORIES}
+          data-active={true}
+        />
         <SimpleGrid cols={{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }}>
           {productCards}
         </SimpleGrid>

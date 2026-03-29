@@ -1,7 +1,7 @@
 .navbar {
-  width: 90px;
+  /* width: 90px; */
   height: 90vh;
-  padding: var(--mantine-spacing-xs);
+  padding: var(--mantine-spacing-sm);
   display: flex;
   flex-direction: column;
   border-right: 1px solid
@@ -16,14 +16,15 @@
 }
 
 .link {
-  width: 65px;
-  height: 50px;
+  /* width: 65px; */
+  /* height: 65px; */
   border-radius: var(--mantine-radius-sm);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
+  /* padding: 5px !important; */
 
   &:hover {
     background-color: light-dark(
@@ -37,6 +38,7 @@
     &:hover {
       background-color: var(--pos-highlight);
       color: var(--pos-accent);
+      border: solid 1px !important;
     }
   }
 }

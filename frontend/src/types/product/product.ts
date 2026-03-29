@@ -21,3 +21,8 @@ export type UpdateProductInput = {
   id: string;
   data: FormData;
 };
+
+export interface MostOrderedProduct {
+  product: string;
+  Orders: number;
+}

@@ -6,6 +6,7 @@ import "@mantine/core/styles.css";
 import "@mantine/dropzone/styles.css";
 import "@mantine/charts/styles.css";
 import "@mantine/notifications/styles.css";
+import "@mantine/dates/styles.css";
 import { MantineProvider } from "@mantine/core";
 import { BrowserRouter } from "react-router-dom";
 import { theme } from "./config/theme.ts";

@@ -23,3 +23,8 @@ export interface UpdateProductDto extends BaseProduct {
   imagePublicId?: string;
   image?: Buffer;
 }
+
+export interface MostOrderedProduct {
+  product: string;
+  Orders: number;
+}

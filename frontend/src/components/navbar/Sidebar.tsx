@@ -14,6 +14,7 @@ interface SidebarLinkProps {
 const SidebarLink = ({ icon: Icon, label, to, active }: SidebarLinkProps) => {
   return (
     <UnstyledButton
+      p={"xs"}
       className={classes.link}
       data-active={active || undefined}
       aria-label={label}

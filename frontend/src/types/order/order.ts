@@ -12,3 +12,8 @@ export interface Order {
 export interface CreateOrderDto {
   orderItems: OrderItem[];
 }
+
+export interface DailySales {
+  date: string; // e.g., "2026-03-01"
+  Sales: number;
+}

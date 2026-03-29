@@ -83,7 +83,7 @@ const Orders = () => {
         mt={"md"}
         size="xs"
         leftSection={<IconSearch size={16} />}
-        placeholder="Search Order #...."
+        placeholder="Search Order ID...."
         variant="default"
         mb={"md"}
       />
