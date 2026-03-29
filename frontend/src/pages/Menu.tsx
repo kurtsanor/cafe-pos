@@ -166,7 +166,6 @@ const Menu = () => {
           mb={"md"}
           withItemsBorders={false}
           data={PRODUCT_CATEGORIES}
-          data-active={true}
         />
         <SimpleGrid cols={{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }}>
           {productCards}

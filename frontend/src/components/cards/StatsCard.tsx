@@ -1,6 +1,6 @@
 import { Paper, Group, Text } from "@mantine/core";
 import classes from "../../styles/StatsCard.module.css";
-import { IconArrowUpRight } from "@tabler/icons-react";
+import { IconArrowUpRight, type IconProps } from "@tabler/icons-react";
 import { formatToTwoDecimals } from "../../utils/currencyFormatter";
 
 interface StatsCardInterface {
@@ -8,6 +8,7 @@ interface StatsCardInterface {
   value: number;
   diff: number;
   isCurrencyValue: boolean;
+  Icon: React.FC<IconProps>;
 }
 
 const StatsCard = ({
@@ -15,6 +16,7 @@ const StatsCard = ({
   value,
   diff,
   isCurrencyValue,
+  Icon,
 }: StatsCardInterface) => {
   return (
     <Paper shadow="xs" p="md">
@@ -22,7 +24,7 @@ const StatsCard = ({
         <Text size="xs" c="dimmed" className={classes.title}>
           {title}
         </Text>
-        <IconArrowUpRight className={classes.icon} size={22} stroke={1.5} />
+        <Icon className={classes.icon} size={22} stroke={1.5} />
       </Group>
 
       <Group align="flex-end" gap="xs" mt={"xs"}>
