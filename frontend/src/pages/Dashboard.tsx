@@ -16,27 +16,9 @@ import { IconFilter2 } from "@tabler/icons-react";
 import { useState } from "react";
 import { MonthPicker } from "@mantine/dates";
 
-const data = [
-  { date: "Mar 1", Sales: 1200 },
-  { date: "Mar 2", Sales: 2800 },
-  { date: "Mar 3", Sales: 6900 },
-  { date: "Mar 4", Sales: 3400 },
-  { date: "Mar 5", Sales: 2100 },
-  { date: "Mar 6", Sales: 4200 },
-  { date: "Mar 7", Sales: 3100 },
-  { date: "Mar 8", Sales: 7500 },
-  { date: "Mar 9", Sales: 2900 },
-  { date: "Mar 10", Sales: 3800 },
-  { date: "Mar 11", Sales: 2200 },
-  { date: "Mar 12", Sales: 4500 },
-  { date: "Mar 13", Sales: 3300 },
-  { date: "Mar 14", Sales: 1800 },
-  { date: "Mar 15", Sales: 3600 },
-];
-
 const Dashboard = () => {
   const [opened, setOpened] = useState(false);
-  const [selectedMonth, setSelectedMonth] = useState<Date | null>(null);
+  const [selectedMonth, setSelectedMonth] = useState<Date>(new Date());
   const {
     data: analytics,
     isLoading,
@@ -55,14 +37,14 @@ const Dashboard = () => {
     queryFn: () => getSalesByDate(selectedMonth || new Date()),
   });
 
-  if (isLoading)
+  if (isLoading || salesLoading)
     return (
       <Center w={"100%"}>
         <Loader />
       </Center>
     );
 
-  if (isError) return <div>Error fetching products.</div>;
+  if (isError || salesError) return <div>Error fetching data.</div>;
 
   const mostOrderedProducts = analytics?.data?.mostOrderedProducts.map(
     (data) => {
@@ -123,11 +105,11 @@ const Dashboard = () => {
 
               <Popover.Dropdown>
                 <MonthPicker
+                  size="xs"
                   value={selectedMonth}
                   onChange={(date: any) => {
                     setSelectedMonth(date);
                     setOpened(false); // close popover after selection
-                    console.log(date);
                   }}
                 />
               </Popover.Dropdown>
