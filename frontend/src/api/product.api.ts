@@ -17,6 +17,8 @@ export const getProductsByPage = async (
   const response = await axiosInstance.get("/products", {
     params: { page, category },
   });
+  console.log(`category: ${category}, page: ${page}`);
+
   return response.data;
 };
 

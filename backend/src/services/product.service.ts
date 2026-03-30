@@ -90,5 +90,12 @@ export const updateProduct = async (data: UpdateProductDto) => {
 };
 
 export const deleteProductById = async (productId: string) => {
+  const product = await Product.findById(productId);
+  const publicId = product?.imagePublicId;
+
+  if (publicId) {
+    uploadService.deleteImageByPublicId(publicId);
+  }
+
   await Product.deleteOne({ _id: productId });
 };

@@ -28,10 +28,13 @@ import { notifications } from "@mantine/notifications";
 import type { OrderItem as OrderItemType } from "../types/orderItem/orderItem";
 import type { PaginatedResponse } from "../types/pagination/pagination";
 import { PRODUCT_CATEGORIES } from "../constants/products";
+import { useSearchParams } from "react-router-dom";
 
 const Menu = () => {
-  const [page, setPage] = useState(1);
-  const [category, setCategory] = useState<string>("All");
+  const [searchParams, setSearchParams] = useSearchParams({ page: "1" });
+  const page = Number(searchParams.get("page") || 1);
+  const category = searchParams.get("category") || "All";
+
   const {
     data: products,
     isLoading,
@@ -105,6 +108,10 @@ const Menu = () => {
     });
   };
 
+  const handleOnFilterChange = (category: string) => {
+    setSearchParams({ category: category });
+  };
+
   const createMutation = useMutation<ApiResponse<Order>, Error, CreateOrderDto>(
     {
       mutationFn: createOrder,
@@ -154,7 +161,7 @@ const Menu = () => {
 
   if (isError) return <div>Error fetching products.</div>;
 
-  const limit = 10;
+  const limit = 12;
   const total = products?.data?.count;
   const totalPages = Math.ceil((total || 0) / limit);
 
@@ -168,7 +175,7 @@ const Menu = () => {
           withItemsBorders={false}
           data={PRODUCT_CATEGORIES}
           value={category}
-          onChange={setCategory}
+          onChange={handleOnFilterChange}
         />
         {products?.data?.data && products.data.data.length < 1 && (
           <p className={classes.empty_placeholder}>No products found</p>
@@ -185,8 +192,18 @@ const Menu = () => {
             withPages={false}
             value={page}
             ml="xs"
-            onPreviousPage={() => setPage((prev) => prev - 1)}
-            onNextPage={() => setPage((prev) => prev + 1)}
+            onPreviousPage={() =>
+              setSearchParams({
+                page: (page - 1).toString(),
+                category: category,
+              })
+            }
+            onNextPage={() =>
+              setSearchParams({
+                page: (page + 1).toString(),
+                category: category,
+              })
+            }
           />
         </footer>
       </article>

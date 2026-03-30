@@ -6,7 +6,7 @@ export const uploadProductImage = async (
   oldPublicId?: string,
 ): Promise<UploadApiResponse> => {
   if (oldPublicId) {
-    await cloudinary.uploader.destroy(oldPublicId);
+    await deleteImageByPublicId(oldPublicId);
   }
 
   return new Promise<UploadApiResponse>((resolve, reject) => {
@@ -23,4 +23,8 @@ export const uploadProductImage = async (
     );
     stream.end(buffer);
   });
+};
+
+export const deleteImageByPublicId = async (publicId: string) => {
+  return await cloudinary.uploader.destroy(publicId);
 };
