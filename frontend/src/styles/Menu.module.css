@@ -78,3 +78,7 @@
 .text_dimmed {
   color: var(--pos-type-faded);
 }
+
+.empty_placeholder {
+  text-align: center;
+}

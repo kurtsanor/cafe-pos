@@ -12,9 +12,10 @@ export const createProduct = async (
 
 export const getProductsByPage = async (
   page: number,
+  category: string,
 ): Promise<ApiResponse<PaginatedResponse<Product[]>>> => {
   const response = await axiosInstance.get("/products", {
-    params: { page },
+    params: { page, category },
   });
   return response.data;
 };

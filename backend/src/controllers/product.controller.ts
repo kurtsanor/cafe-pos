@@ -33,12 +33,13 @@ export const createProduct = async (
 };
 
 export const getProductsByPage = async (
-  req: Request,
+  req: Request<{}, {}, {}, { page: number; category: string }>,
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
   // retrive page number from request query
   const page = req.query.page;
+  const category = req.query.category;
   let parsedPage;
 
   if (page) {
@@ -50,7 +51,10 @@ export const getProductsByPage = async (
   }
 
   try {
-    const products = await productService.getProductsByPage(parsedPage);
+    const products = await productService.getProductsByPage(
+      parsedPage,
+      category,
+    );
 
     ResponseUtility.success(res, products, "Products retrieved");
   } catch (error) {

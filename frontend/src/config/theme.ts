@@ -83,8 +83,8 @@ export const theme = createTheme({
         },
         label: {
           // Target the active state specifically
-          "&[data-active]": {
-            color: "white",
+          "&[dataActive]": {
+            color: "red",
           },
 
           // Target the hover state

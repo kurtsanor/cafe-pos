@@ -31,13 +31,14 @@ import { PRODUCT_CATEGORIES } from "../constants/products";
 
 const Menu = () => {
   const [page, setPage] = useState(1);
+  const [category, setCategory] = useState<string>("All");
   const {
     data: products,
     isLoading,
     isError,
   } = useQuery<ApiResponse<PaginatedResponse<Product[]>>, Error>({
-    queryKey: ["products", page],
-    queryFn: () => getProductsByPage(page),
+    queryKey: ["products", page, category],
+    queryFn: () => getProductsByPage(page, category == "All" ? "" : category),
   });
 
   const [cart, setCart] = useState<OrderItemType[]>([]);
@@ -166,7 +167,13 @@ const Menu = () => {
           mb={"md"}
           withItemsBorders={false}
           data={PRODUCT_CATEGORIES}
+          value={category}
+          onChange={setCategory}
         />
+        {products?.data?.data && products.data.data.length < 1 && (
+          <p className={classes.empty_placeholder}>No products found</p>
+        )}
+
         <SimpleGrid cols={{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }}>
           {productCards}
         </SimpleGrid>

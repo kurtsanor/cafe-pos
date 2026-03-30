@@ -33,17 +33,23 @@ export const createProduct = async (
 
 export const getProductsByPage = async (
   page?: number,
+  category?: string,
 ): Promise<PaginatedResponse<MongooseProduct[]>> => {
   const pageNumber = page ?? DEFAULT_PAGE_NUMBER;
   const skip = (pageNumber - 1) * PRODUCTS_PAGE_SIZE;
 
-  const products = await Product.find()
+  const filter: Record<string, any> = {};
+  if (category) {
+    filter.category = category;
+  }
+
+  const products = await Product.find(filter)
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(PRODUCTS_PAGE_SIZE)
     .lean();
 
-  const totalCount = await Product.countDocuments();
+  const totalCount = await Product.countDocuments(filter);
 
   const totalPages = Math.ceil(totalCount / PRODUCTS_PAGE_SIZE);
 
