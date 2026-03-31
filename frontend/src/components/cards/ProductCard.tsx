@@ -1,6 +1,7 @@
 import { Card, Image } from "@mantine/core";
 import classes from "../../styles/ProductCard.module.css";
 import type { Product } from "../../types/product/product";
+import { formatToTwoDecimals } from "../../utils/currencyFormatter";
 
 interface ProductCardProps {
   product: Product;
@@ -26,7 +27,9 @@ const ProductCard = ({ product, onClick }: ProductCardProps) => {
       </Card.Section>
       <Card.Section p={"xs"}>
         <p className={classes.product__title}>{product.name}</p>
-        <p className={classes.product__price}>{`₱${product.price}`}</p>
+        <p
+          className={classes.product__price}
+        >{`₱${formatToTwoDecimals(product.price)}`}</p>
       </Card.Section>
     </Card>
   );

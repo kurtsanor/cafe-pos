@@ -30,6 +30,7 @@ import type { ApiResponse } from "../types/response/apiResponse";
 import type { Product } from "../types/product/product";
 import type { PaginatedResponse } from "../types/pagination/pagination";
 import { notifications } from "@mantine/notifications";
+import { formatToTwoDecimals } from "../utils/currencyFormatter";
 
 const Products = () => {
   // controlls pagination number
@@ -41,7 +42,7 @@ const Products = () => {
     isError,
   } = useQuery<ApiResponse<PaginatedResponse<Product[]>>, Error>({
     queryKey: ["products", page],
-    queryFn: () => getProductsByPage(page),
+    queryFn: () => getProductsByPage(page, ""),
   });
 
   const queryClient = useQueryClient();
@@ -103,7 +104,7 @@ const Products = () => {
       </Table.Td>
       <Table.Td>{product.name}</Table.Td>
       <Table.Td>{product.category}</Table.Td>
-      <Table.Td>{`₱${product.price}`}</Table.Td>
+      <Table.Td>{`₱${formatToTwoDecimals(product.price)}`}</Table.Td>
       <Table.Td>
         <Menu>
           <Menu.Target>

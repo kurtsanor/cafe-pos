@@ -18,6 +18,7 @@ import type { ApiResponse } from "../types/response/apiResponse";
 import type { Order } from "../types/order/order";
 import { toReadableDate } from "../utils/dateFormatter";
 import type { PaginatedResponse } from "../types/pagination/pagination";
+import { formatToTwoDecimals } from "../utils/currencyFormatter";
 
 const Orders = () => {
   const [page, setPage] = useState(1);
@@ -37,7 +38,7 @@ const Orders = () => {
       <Table.Td>{order.orderId}</Table.Td>
       <Table.Td>{toReadableDate(order.createdAt)}</Table.Td>
       <Table.Td>{order.itemCount}</Table.Td>
-      <Table.Td>{`₱${order.totalAmount}`}</Table.Td>
+      <Table.Td>{`₱${formatToTwoDecimals(order.totalAmount)}`}</Table.Td>
     </Table.Tr>
   ));
 

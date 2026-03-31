@@ -17,11 +17,12 @@
 
 .product__image {
   padding: var(--mantine-spacing-md);
+  padding-bottom: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid
-    light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+  /* border-bottom: 1px solid
+    light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4)); */
 }
 
 .product__title {

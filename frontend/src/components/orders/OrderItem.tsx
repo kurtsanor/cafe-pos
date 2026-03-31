@@ -1,8 +1,9 @@
 import { ActionIcon, Image } from "@mantine/core";
 import classes from "../../styles/OrderItem.module.css";
-import { IconTrash } from "@tabler/icons-react";
+import { IconTrash, IconX } from "@tabler/icons-react";
 import { Quantity } from "./Quantity";
 import type { OrderItem as IOrderItem } from "../../types/orderItem/orderItem";
+import { formatToTwoDecimals } from "../../utils/currencyFormatter";
 
 interface OrderItemProps {
   order: IOrderItem;
@@ -44,16 +45,17 @@ const OrderItem = ({
 
         <div className={classes.item__section_right}>
           <p className={classes.item__price}>
-            ₱{order.product.price * order.quantity}
+            ₱{formatToTwoDecimals(order.product.price * order.quantity)}
           </p>
           <ActionIcon
+            radius={"lg"}
             variant="light"
-            color="red"
-            size={18}
+            size={16}
             ml="xs"
             onClick={() => removeFromCart(order.product._id)}
+            className={classes.remove_icon}
           >
-            <IconTrash />
+            <IconX color="white" />
           </ActionIcon>
         </div>
       </section>

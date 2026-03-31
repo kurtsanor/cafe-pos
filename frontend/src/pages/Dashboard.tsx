@@ -160,7 +160,7 @@ const Dashboard = () => {
             <h5 className={classes.chart__title}>Top 5 Most Ordered</h5>
             <BarChart
               mt="lg"
-              h={260}
+              h={285}
               data={mostOrderedProducts || []}
               dataKey="product"
               orientation="horizontal"

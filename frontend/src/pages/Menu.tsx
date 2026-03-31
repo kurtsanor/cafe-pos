@@ -29,6 +29,7 @@ import type { OrderItem as OrderItemType } from "../types/orderItem/orderItem";
 import type { PaginatedResponse } from "../types/pagination/pagination";
 import { PRODUCT_CATEGORIES } from "../constants/products";
 import { useSearchParams } from "react-router-dom";
+import { formatToTwoDecimals } from "../utils/currencyFormatter";
 
 const Menu = () => {
   const [searchParams, setSearchParams] = useSearchParams({ page: "1" });
@@ -235,7 +236,7 @@ const Menu = () => {
         <footer className={classes.order_entry__footer}>
           <section className={classes.footer__total}>
             <h4>Total</h4>
-            <h4>{`₱${totalPrice}`}</h4>
+            <h4>{`₱${formatToTwoDecimals(totalPrice)}`}</h4>
           </section>
           <section className={classes.footer__buttons}>
             <Button

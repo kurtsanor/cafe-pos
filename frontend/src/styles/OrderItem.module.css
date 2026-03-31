@@ -22,6 +22,7 @@
 .item__section_right {
   display: flex;
   justify-content: end;
+  align-items: center;
 }
 
 .item__title {
@@ -54,4 +55,8 @@
   &:hover {
     background-color: var(--mantine-color-gray-1) !important;
   }
+}
+
+.remove_icon {
+  background-color: var(--pos-type-faded) !important;
 }
