@@ -26,6 +26,11 @@ import { formatToTwoDecimals } from "../utils/currencyFormatter";
 const Dashboard = () => {
   const [opened, setOpened] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState<Date>(new Date());
+  const normalizedDate = new Date(
+    selectedMonth.getFullYear(),
+    selectedMonth.getMonth(),
+    1,
+  );
   const {
     data: analytics,
     isLoading,
@@ -40,8 +45,8 @@ const Dashboard = () => {
     isLoading: salesLoading,
     isError: salesError,
   } = useQuery({
-    queryKey: ["sales", selectedMonth],
-    queryFn: () => getSalesByDate(selectedMonth || new Date()),
+    queryKey: ["sales", normalizedDate],
+    queryFn: () => getSalesByDate(normalizedDate),
   });
 
   if (isLoading || salesLoading)
