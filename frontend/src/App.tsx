@@ -4,13 +4,15 @@ import Menu from "./pages/Menu";
 import Products from "./pages/Products";
 import Orders from "./pages/Orders";
 import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
 
 function App() {
   return (
     <>
       <Routes>
+        <Route path="/" element={<Login />} />
         <Route element={<MainLayout />}>
-          <Route path="/" element={<Menu />} />
+          <Route path="/menu" element={<Menu />} />
           <Route path="/products" element={<Products />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="dashboard" element={<Dashboard />} />
