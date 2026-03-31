@@ -37,11 +37,13 @@ export const login = async (
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge:
+        Number(process.env.REFRESH_TOKEN_EXPIRY_DAYS) * 24 * 60 * 60 * 1000, // 7 days
     });
 
     ResponseUtility.success(res, { accessToken }, "Successfully logged in.");
-  } catch (error) {
+  } catch (error: any) {
+    error.status = 400;
     next(error);
   }
 };
@@ -53,7 +55,7 @@ export const refreshToken = async (
 ) => {
   const token = req.cookies.refreshToken;
   if (!token) {
-    return ResponseUtility.forbidden(res, null, "No refresh token");
+    return ResponseUtility.unauthorized(res, null, "No refresh token");
   }
 
   try {
@@ -71,6 +73,23 @@ export const refreshToken = async (
 
     ResponseUtility.success(res, { accessToken }, "New access token retrieved");
   } catch (error) {
-    ResponseUtility.forbidden(res, null, "Invalid refresh token");
+    ResponseUtility.unauthorized(res, null, "Invalid refresh token");
+  }
+};
+
+export const logout = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+    ResponseUtility.success(res, null, "Logged out successfully");
+  } catch (error) {
+    next(error);
   }
 };

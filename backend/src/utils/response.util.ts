@@ -70,3 +70,17 @@ export const forbidden = <T>(
   };
   return res.status(statusCode).json(response);
 };
+
+export const unauthorized = <T>(
+  res: Response,
+  data?: T,
+  message = "Unauthorized",
+  statusCode = 401,
+) => {
+  const response: ApiResponse<T> = {
+    status: "error",
+    message,
+    data,
+  };
+  return res.status(statusCode).json(response);
+};

@@ -1,12 +1,30 @@
 import express from "express";
 import * as productController from "../controllers/product.controller";
 import upload from "../config/multer";
+import { authenticate } from "../middlewares/auth.middleware";
 
 const router = express.Router();
 
-router.post("/", upload.single("image"), productController.createProduct);
-router.get("/", productController.getProductsByPage);
-router.delete("/:id", productController.deleteProductById);
-router.patch("/:id", upload.single("image"), productController.updateProduct);
+// Create new product
+router.post(
+  "/",
+  authenticate,
+  upload.single("image"),
+  productController.createProduct,
+);
+
+// Retrieve products
+router.get("/", authenticate, productController.getProductsByPage);
+
+// Delete a product
+router.delete("/:id", authenticate, productController.deleteProductById);
+
+// Update / Patch a product
+router.patch(
+  "/:id",
+  authenticate,
+  upload.single("image"),
+  productController.updateProduct,
+);
 
 export default router;

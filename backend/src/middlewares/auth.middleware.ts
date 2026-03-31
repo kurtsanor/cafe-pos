@@ -20,10 +20,10 @@ export const authenticate = (
     const header = req.headers.authorization;
 
     if (!header || !header.startsWith("Bearer ")) {
-      return ResponseUtility.forbidden(
+      return ResponseUtility.unauthorized(
         res,
         null,
-        "Forbidden: No authentication token.",
+        "Unauthorized: No authentication token.",
       );
     }
 
@@ -33,6 +33,6 @@ export const authenticate = (
     req.user = decoded;
     next();
   } catch (error) {
-    ResponseUtility.forbidden(res, null, "Token has expired or is invalid.");
+    ResponseUtility.unauthorized(res, null, "Token has expired or is invalid.");
   }
 };

@@ -1,14 +1,19 @@
 import { IconHome2, IconLogout } from "@tabler/icons-react";
-import { Stack, UnstyledButton } from "@mantine/core";
+import { Button, Stack, UnstyledButton } from "@mantine/core";
 import classes from "../../styles/Navbar.module.css";
 import { sidebarRoutes } from "../../constants/routes";
 import { Link, useLocation } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import type { ApiResponse } from "../../types/response/apiResponse";
+import { logout } from "../../api/auth.api";
+import { clearAccessToken } from "../../store/auth.store";
 
 interface SidebarLinkProps {
   icon: typeof IconHome2;
   label: string;
-  to: string;
+  to?: string;
   active?: boolean;
+  onClick?: () => void;
 }
 
 const SidebarLink = ({ icon: Icon, label, to, active }: SidebarLinkProps) => {
@@ -19,7 +24,7 @@ const SidebarLink = ({ icon: Icon, label, to, active }: SidebarLinkProps) => {
       data-active={active || undefined}
       aria-label={label}
       component={Link}
-      to={to}
+      to={to!!}
     >
       <Icon
         data-active={active || undefined}
@@ -36,6 +41,14 @@ const SidebarLink = ({ icon: Icon, label, to, active }: SidebarLinkProps) => {
 
 const Sidebar = () => {
   const location = useLocation();
+
+  const logoutMutation = useMutation<ApiResponse<null>, Error>({
+    mutationFn: logout,
+    onSuccess: (response) => {
+      clearAccessToken();
+      window.location.href = "/";
+    },
+  });
 
   const links = sidebarRoutes.map((link, index) => (
     <SidebarLink
@@ -54,7 +67,14 @@ const Sidebar = () => {
       </div>
 
       <Stack justify="center" gap={0}>
-        <SidebarLink to="/" icon={IconLogout} label="Logout" />
+        <UnstyledButton
+          p={"xs"}
+          className={classes.link}
+          onClick={() => logoutMutation.mutate()}
+        >
+          <IconLogout className={classes.link__icon} size={20} stroke={1.5} />
+          <span className={classes.link__label}>Logout</span>
+        </UnstyledButton>
       </Stack>
     </nav>
   );

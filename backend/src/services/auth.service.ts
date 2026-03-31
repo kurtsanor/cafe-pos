@@ -9,7 +9,7 @@ export const login = async (request: LoginRequest): Promise<JwtTokens> => {
   const user = await User.findOne({ username: request.username }).lean();
 
   if (!user) {
-    throw new Error("Username does not exist");
+    throw new Error("Invalid username or password");
   }
 
   const plainPassword = request.password;
@@ -21,7 +21,7 @@ export const login = async (request: LoginRequest): Promise<JwtTokens> => {
   );
 
   if (!isMatchingPasswords) {
-    throw new Error("Invalid password");
+    throw new Error("Invalid username or password");
   }
 
   const userId = user._id.toString();

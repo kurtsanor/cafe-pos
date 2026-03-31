@@ -33,13 +33,13 @@ export const createProduct = async (
 };
 
 export const getProductsByPage = async (
-  req: Request<{}, {}, {}, { page: number; category: string }>,
+  req: Request,
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
   // retrive page number from request query
   const page = req.query.page;
-  const category = req.query.category;
+  const category = req.query.category as string;
   let parsedPage;
 
   if (page) {
