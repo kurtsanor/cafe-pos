@@ -16,5 +16,6 @@ export const getSalesByDate = async (
   const response = await axiosInstance.get("/analytics/sales", {
     params: { date: dateString },
   });
+
   return response.data;
 };

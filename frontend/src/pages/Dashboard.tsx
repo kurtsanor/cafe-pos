@@ -45,7 +45,7 @@ const Dashboard = () => {
     isLoading: salesLoading,
     isError: salesError,
   } = useQuery({
-    queryKey: ["sales", normalizedDate],
+    queryKey: ["sales", normalizedDate.getTime()],
     queryFn: () => getSalesByDate(normalizedDate),
   });
 
