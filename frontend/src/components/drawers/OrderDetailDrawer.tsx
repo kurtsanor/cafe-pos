@@ -35,7 +35,7 @@ const OrderDetailDrawer = ({ order }: OrderDetailDrawerProps) => {
     <Group justify="space-between" key={item._id} flex={1}>
       <span>
         <span className={classes.quantity}>{`${item.quantity} x`}</span>{" "}
-        {item.productId.name}
+        {item.productId?.name || "Deleted Product"}
       </span>
       <span>{`₱${item.price * item.quantity}`}</span>
     </Group>

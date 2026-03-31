@@ -1,7 +1,7 @@
 .navbar {
-  /* width: 90px; */
+  width: 90px;
   height: 90vh;
-  padding: var(--mantine-spacing-sm);
+  padding: var(--mantine-spacing-xs);
   display: flex;
   flex-direction: column;
   border-right: 1px solid
@@ -58,4 +58,10 @@
 
 .link__icon[data-active] {
   color: var(--pos-accent);
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    display: none;
+  }
 }
