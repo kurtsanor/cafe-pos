@@ -37,7 +37,7 @@ export const Login = () => {
       setAccessToken(response.data?.accessToken);
       navigate("/dashboard");
     },
-    onError(error: any, variables, onMutateResult, context) {
+    onError(error: any) {
       notifications.show({
         color: "red",
         icon: <IconX />,

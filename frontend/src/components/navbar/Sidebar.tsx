@@ -1,5 +1,5 @@
 import { IconHome2, IconLogout } from "@tabler/icons-react";
-import { Button, Stack, UnstyledButton } from "@mantine/core";
+import { Stack, UnstyledButton } from "@mantine/core";
 import classes from "../../styles/Navbar.module.css";
 import { sidebarRoutes } from "../../constants/routes";
 import { Link, useLocation } from "react-router-dom";
@@ -44,13 +44,13 @@ const Sidebar = () => {
 
   const logoutMutation = useMutation<ApiResponse<null>, Error>({
     mutationFn: logout,
-    onSuccess: (response) => {
+    onSuccess: () => {
       clearAccessToken();
       window.location.href = "/";
     },
   });
 
-  const links = sidebarRoutes.map((link, index) => (
+  const links = sidebarRoutes.map((link) => (
     <SidebarLink
       {...link}
       key={link.label}

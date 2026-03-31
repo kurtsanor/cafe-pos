@@ -1,10 +1,4 @@
-import {
-  createTheme,
-  Drawer,
-  Notification,
-  SegmentedControl,
-} from "@mantine/core";
-import { Notifications, notifications } from "@mantine/notifications";
+import { createTheme } from "@mantine/core";
 
 const POS_ACCENT = "#fc8019";
 

@@ -7,7 +7,6 @@ import {
   Menu,
   Pagination,
   Paper,
-  ScrollArea,
   Table,
   TextInput,
 } from "@mantine/core";
@@ -68,7 +67,7 @@ const Products = () => {
 
   const deleteMutation = useMutation<ApiResponse<void>, Error, string>({
     mutationFn: deleteProductById,
-    onSuccess: (response) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
       notifications.show({
         color: "var(--pos-pop)",

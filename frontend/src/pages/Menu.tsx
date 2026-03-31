@@ -30,7 +30,6 @@ import type { PaginatedResponse } from "../types/pagination/pagination";
 import { PRODUCT_CATEGORIES } from "../constants/products";
 import { useSearchParams } from "react-router-dom";
 import { formatToTwoDecimals } from "../utils/currencyFormatter";
-import { getAccessToken } from "../store/auth.store";
 
 const Menu = () => {
   const [searchParams, setSearchParams] = useSearchParams({ page: "1" });

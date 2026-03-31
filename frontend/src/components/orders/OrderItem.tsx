@@ -1,6 +1,6 @@
 import { ActionIcon, Image } from "@mantine/core";
 import classes from "../../styles/OrderItem.module.css";
-import { IconTrash, IconX } from "@tabler/icons-react";
+import { IconX } from "@tabler/icons-react";
 import { Quantity } from "./Quantity";
 import type { OrderItem as IOrderItem } from "../../types/orderItem/orderItem";
 import { formatToTwoDecimals } from "../../utils/currencyFormatter";

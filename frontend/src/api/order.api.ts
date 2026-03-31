@@ -1,9 +1,6 @@
 import axiosInstance from "../config/axios";
 import type { CreateOrderDto, Order } from "../types/order/order";
-import type {
-  MongooseOrderItem,
-  OrderItem,
-} from "../types/orderItem/orderItem";
+import type { MongooseOrderItem } from "../types/orderItem/orderItem";
 import type { PaginatedResponse } from "../types/pagination/pagination";
 import type { ApiResponse } from "../types/response/apiResponse";
 
