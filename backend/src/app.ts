@@ -3,7 +3,9 @@ import helmet from "helmet";
 import productRoutes from "../src/routes/product.routes";
 import orderRoutes from "../src/routes/order.routes";
 import analyticsRoutes from "../src/routes/analytics.routes";
+import authRoutes from "../src/routes/auth.routes";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 // Init express app
 const app = express();
@@ -25,11 +27,13 @@ app.use(
   }),
 );
 
+app.use(cookieParser());
 app.use(helmet());
 
 app.use("/products", productRoutes);
 app.use("/orders", orderRoutes);
 app.use("/analytics", analyticsRoutes);
+app.use("/auth", authRoutes);
 
 // Global error handler
 app.use(
