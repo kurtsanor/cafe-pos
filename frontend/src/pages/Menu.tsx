@@ -3,6 +3,7 @@ import {
   Center,
   Loader,
   Pagination,
+  ScrollArea,
   SegmentedControl,
   SimpleGrid,
   Stack,
@@ -171,18 +172,21 @@ const Menu = () => {
   return (
     <main className={classes.main}>
       <article className={classes.main__menu}>
-        <SegmentedControl
-          mb={"md"}
-          withItemsBorders={false}
-          data={PRODUCT_CATEGORIES}
-          value={category}
-          onChange={handleOnFilterChange}
-        />
+        <ScrollArea className={classes.filter__scrollArea} mb={"md"}>
+          <SegmentedControl
+            mb={"sm"}
+            withItemsBorders={false}
+            data={PRODUCT_CATEGORIES}
+            value={category}
+            onChange={handleOnFilterChange}
+          />
+        </ScrollArea>
+
         {products?.data?.data && products.data.data.length < 1 && (
           <p className={classes.empty_placeholder}>No products found</p>
         )}
 
-        <SimpleGrid cols={{ xs: 1, sm: 2, md: 3, lg: 4, xl: 5 }}>
+        <SimpleGrid cols={{ base: 2, sm: 2, md: 3, lg: 4, xl: 5 }}>
           {productCards}
         </SimpleGrid>
         <footer className={classes.footer}>
