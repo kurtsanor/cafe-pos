@@ -1,6 +1,7 @@
 import {
   Button,
   Center,
+  Drawer,
   Loader,
   Pagination,
   ScrollArea,
@@ -15,6 +16,7 @@ import {
   IconCheckFilled,
   IconCircleArrowRight,
   IconCircleX,
+  IconShoppingCart,
   IconShoppingCartOff,
 } from "@tabler/icons-react";
 import OrderItem from "../components/orders/OrderItem";
@@ -28,12 +30,13 @@ import { createOrder } from "../api/order.api";
 import { notifications } from "@mantine/notifications";
 import type { OrderItem as OrderItemType } from "../types/orderItem/orderItem";
 import type { PaginatedResponse } from "../types/pagination/pagination";
-import { PRODUCT_CATEGORIES } from "../constants/products";
 import { useSearchParams } from "react-router-dom";
 import { formatToTwoDecimals } from "../utils/currencyFormatter";
+import { PRODUCT_CATEGORIES } from "../constants/products";
 
 const Menu = () => {
   const [searchParams, setSearchParams] = useSearchParams({ page: "1" });
+  const [cartOpened, setCartOpened] = useState<boolean>(false);
   const page = Number(searchParams.get("page") || 1);
   const category = searchParams.get("category") || "All";
 
@@ -155,7 +158,7 @@ const Menu = () => {
   if (isLoading)
     return (
       <div className={classes.main}>
-        <Center w={"100%"}>
+        <Center w={"100%"} h={"90vh"}>
           <Loader />
         </Center>
       </div>
@@ -170,102 +173,159 @@ const Menu = () => {
   const message = `Showing ${limit * (page - 1) + 1} - ${Math.min(total || 0, limit * page)} of ${total}`;
 
   return (
-    <main className={classes.main}>
-      <article className={classes.main__menu}>
-        <ScrollArea className={classes.filter__scrollArea} mb={"md"}>
-          <SegmentedControl
-            mb={"sm"}
-            withItemsBorders={false}
-            data={PRODUCT_CATEGORIES}
-            value={category}
-            onChange={handleOnFilterChange}
-          />
-        </ScrollArea>
+    <div className={classes.container}>
+      <main className={classes.main}>
+        <article className={classes.main__menu}>
+          <ScrollArea className={classes.filter__scrollArea} mb={"md"}>
+            <SegmentedControl
+              mb={"sm"}
+              withItemsBorders={false}
+              data={PRODUCT_CATEGORIES}
+              value={category}
+              onChange={handleOnFilterChange}
+            />
+          </ScrollArea>
 
-        {products?.data?.data && products.data.data.length < 1 && (
-          <p className={classes.empty_placeholder}>No products found</p>
-        )}
-
-        <SimpleGrid cols={{ base: 2, sm: 2, md: 3, lg: 4, xl: 5 }}>
-          {productCards}
-        </SimpleGrid>
-        <footer className={classes.footer}>
-          <span>{message}</span>
-          <Pagination
-            size={"sm"}
-            total={totalPages}
-            withPages={false}
-            value={page}
-            ml="xs"
-            onPreviousPage={() =>
-              setSearchParams({
-                page: (page - 1).toString(),
-                category: category,
-              })
-            }
-            onNextPage={() =>
-              setSearchParams({
-                page: (page + 1).toString(),
-                category: category,
-              })
-            }
-          />
-        </footer>
-      </article>
-
-      {/* Order Entry Container */}
-      <aside className={classes.main__order_entry}>
-        {/* Order Entry Header */}
-        <header className={classes.order_entry__header}>
-          <h4>Order Items</h4>
-        </header>
-
-        {/* Order Entry Body */}
-        <main className={classes.order_entry__body}>
-          {cart.length < 1 && (
-            <Center flex={1}>
-              <Stack align="center" gap={5}>
-                <IconShoppingCartOff size={48} stroke={1.5} />
-                <Text size="sm">No items in cart</Text>
-                <span className={classes.text_dimmed}>
-                  Add products to get started
-                </span>
-              </Stack>
-            </Center>
+          {products?.data?.data && products.data.data.length < 1 && (
+            <p className={classes.empty_placeholder}>No products found</p>
           )}
-          {orderEntries}
-        </main>
 
-        {/* Order Entry Footer */}
-        <footer className={classes.order_entry__footer}>
-          <section className={classes.footer__total}>
-            <h4>Total</h4>
-            <h4>{`₱${formatToTwoDecimals(totalPrice)}`}</h4>
-          </section>
-          <section className={classes.footer__buttons}>
-            <Button
-              fullWidth
-              className={classes.footer__buttons_clear}
-              leftSection={<IconCircleX size={16} stroke={1.5} />}
-              disabled={cart.length < 1 || createMutation.isPending}
-              onClick={() => setCart([])}
-            >
-              Clear Order
-            </Button>
-            <Button
-              fullWidth
-              className={classes.footer__buttons_place}
-              leftSection={<IconCircleArrowRight size={16} stroke={1.5} />}
-              disabled={cart.length < 1}
-              onClick={handlePlaceOrder}
-              loading={createMutation.isPending}
-            >
-              Place Order
-            </Button>
-          </section>
+          <SimpleGrid cols={{ base: 2, xs: 3, sm: 2, md: 3, lg: 4, xl: 5 }}>
+            {productCards}
+          </SimpleGrid>
+          <footer className={classes.footer}>
+            <span>{message}</span>
+            <Pagination
+              size={"sm"}
+              total={totalPages}
+              withPages={false}
+              value={page}
+              ml="xs"
+              onPreviousPage={() =>
+                setSearchParams({
+                  page: (page - 1).toString(),
+                  category: category,
+                })
+              }
+              onNextPage={() =>
+                setSearchParams({
+                  page: (page + 1).toString(),
+                  category: category,
+                })
+              }
+            />
+          </footer>
+        </article>
+
+        {/* Order Entry Container */}
+        <aside className={classes.main__order_entry}>
+          {/* Order Entry Header */}
+          <header className={classes.order_entry__header}>
+            <h4>Order Items</h4>
+          </header>
+
+          {/* Order Entry Body */}
+          <main className={classes.order_entry__body}>
+            {cart.length < 1 && (
+              <Center flex={1}>
+                <Stack align="center" gap={5}>
+                  <IconShoppingCartOff size={48} stroke={1.5} />
+                  <Text size="sm">No items in cart</Text>
+                  <span className={classes.text_dimmed}>
+                    Add products to get started
+                  </span>
+                </Stack>
+              </Center>
+            )}
+            {orderEntries}
+          </main>
+
+          {/* Order Entry Footer */}
+          <footer className={classes.order_entry__footer}>
+            <section className={classes.footer__total}>
+              <h4>Total</h4>
+              <h4>{`₱${formatToTwoDecimals(totalPrice)}`}</h4>
+            </section>
+            <section className={classes.footer__buttons}>
+              <Button
+                fullWidth
+                className={classes.footer__buttons_clear}
+                leftSection={<IconCircleX size={16} stroke={1.5} />}
+                disabled={cart.length < 1 || createMutation.isPending}
+                onClick={() => setCart([])}
+              >
+                Clear Order
+              </Button>
+              <Button
+                fullWidth
+                className={classes.footer__buttons_place}
+                leftSection={<IconCircleArrowRight size={16} stroke={1.5} />}
+                disabled={cart.length < 1}
+                onClick={handlePlaceOrder}
+                loading={createMutation.isPending}
+              >
+                Place Order
+              </Button>
+            </section>
+          </footer>
+        </aside>
+      </main>
+      {orderEntries.length > 0 && (
+        <footer className={classes.floatingBar}>
+          <Button
+            justify="space-between"
+            leftSection={<IconShoppingCart size={18} />}
+            rightSection={`₱ ${totalPrice}`}
+            fullWidth
+            onClick={() => setCartOpened(true)}
+          >
+            View Cart
+          </Button>
+          <Drawer
+            title="Cart"
+            size={"100%"}
+            opened={cartOpened}
+            onClose={() => setCartOpened(false)}
+            transitionProps={{ transition: undefined, duration: 0 }}
+          >
+            <Stack mb={"xl"}>{orderEntries}</Stack>
+            <footer className={classes.order_entry__footer}>
+              <section className={classes.footer__total}>
+                <h4>Total</h4>
+                <h4>{`₱${formatToTwoDecimals(totalPrice)}`}</h4>
+              </section>
+              <section className={classes.footer__buttons}>
+                <Button
+                  fullWidth
+                  className={classes.footer__buttons_clear}
+                  leftSection={<IconCircleX size={16} stroke={1.5} />}
+                  disabled={cart.length < 1 || createMutation.isPending}
+                  onClick={() => {
+                    setCart([]);
+                    setCartOpened(false);
+                  }}
+                >
+                  Clear Order
+                </Button>
+                <Button
+                  fullWidth
+                  className={classes.footer__buttons_place}
+                  leftSection={<IconCircleArrowRight size={16} stroke={1.5} />}
+                  disabled={cart.length < 1}
+                  onClick={() => {
+                    handlePlaceOrder();
+                    setCartOpened(false);
+                  }}
+                  loading={createMutation.isPending}
+                >
+                  Place Order
+                </Button>
+              </section>
+            </footer>
+          </Drawer>
         </footer>
-      </aside>
-    </main>
+      )}
+    </div>
   );
 };
 

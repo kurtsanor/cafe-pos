@@ -1,3 +1,18 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.floatingBar {
+  position: sticky;
+  bottom: 0;
+  border-top: 1px solid
+    light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+  background: white;
+  padding: var(--mantine-spacing-md);
+  display: none;
+}
+
 .main {
   display: flex;
   flex-direction: row;
@@ -93,5 +108,8 @@
   }
   .main__order_entry {
     display: none;
+  }
+  .floatingBar {
+    display: block;
   }
 }
