@@ -55,7 +55,7 @@ const Receipt = React.forwardRef<HTMLDivElement, { data: ReceiptProps }>(
           {orderItems?.map((item) => (
             <div key={item._id} className={classes.flexRow}>
               <span>{`${item.quantity}x ${item.productId?.name}`}</span>
-              <span>{(item.price * item.quantity).toFixed(2)}</span>
+              <span>₱ {(item.price * item.quantity).toFixed(2)}</span>
             </div>
           ))}
         </div>
@@ -70,11 +70,11 @@ const Receipt = React.forwardRef<HTMLDivElement, { data: ReceiptProps }>(
           </div>
           <div className={classes.flexRow}>
             <span>CASH:</span>
-            <span>{/* Add cash prop here if available */} 0.00</span>
+            <span>{/* Add cash prop here if available */}₱ 0.00</span>
           </div>
           <div className={classes.flexRow}>
             <span>CHANGE:</span>
-            <span> 0.00</span>
+            <span>₱ 0.00</span>
           </div>
         </div>
 
