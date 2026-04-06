@@ -4,8 +4,6 @@ import {
   Drawer,
   Loader,
   Pagination,
-  ScrollArea,
-  SegmentedControl,
   SimpleGrid,
   Stack,
   Text,
