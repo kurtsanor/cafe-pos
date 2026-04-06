@@ -33,6 +33,7 @@ import type { PaginatedResponse } from "../types/pagination/pagination";
 import { useSearchParams } from "react-router-dom";
 import { formatToTwoDecimals } from "../utils/currencyFormatter";
 import { PRODUCT_CATEGORIES } from "../constants/products";
+import CategoryButtons from "../components/carousels/CategoryButtons";
 
 const Menu = () => {
   const [searchParams, setSearchParams] = useSearchParams({ page: "1" });
@@ -176,21 +177,20 @@ const Menu = () => {
     <div className={classes.container}>
       <main className={classes.main}>
         <article className={classes.main__menu}>
-          <ScrollArea className={classes.filter__scrollArea} mb={"md"}>
-            <SegmentedControl
-              mb={"sm"}
-              withItemsBorders={false}
-              data={PRODUCT_CATEGORIES}
-              value={category}
-              onChange={handleOnFilterChange}
-            />
-          </ScrollArea>
+          <CategoryButtons
+            categories={PRODUCT_CATEGORIES}
+            value={category}
+            onClick={handleOnFilterChange}
+          />
 
           {products?.data?.data && products.data.data.length < 1 && (
             <p className={classes.empty_placeholder}>No products found</p>
           )}
 
-          <SimpleGrid cols={{ base: 2, xs: 3, sm: 2, md: 3, lg: 4, xl: 5 }}>
+          <SimpleGrid
+            cols={{ base: 2, xs: 3, sm: 2, md: 3, lg: 4, xl: 5 }}
+            mt={"lg"}
+          >
             {productCards}
           </SimpleGrid>
           <footer className={classes.footer}>

@@ -1,6 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
+  flex: 1; /* extend to the right */
 }
 
 .floatingBar {
@@ -96,16 +97,10 @@
 
 .empty_placeholder {
   text-align: center;
-}
-
-.filter__scrollArea {
-  border-radius: var(--mantine-radius-sm);
+  margin-top: var(--mantine-spacing-md);
 }
 
 @media (max-width: 768px) {
-  .filter__scrollArea {
-    width: 450px;
-  }
   .main__order_entry {
     display: none;
   }
