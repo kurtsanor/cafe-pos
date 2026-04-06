@@ -20,6 +20,7 @@ const Topbar = () => {
 
   const routes = sidebarRoutes.map((route) => (
     <Button
+      key={route.label}
       justify="start"
       variant="default"
       fullWidth

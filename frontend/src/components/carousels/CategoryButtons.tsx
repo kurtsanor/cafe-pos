@@ -14,7 +14,7 @@ const CategoryButtons = ({
   onClick,
 }: CategoryButtonsProps) => {
   const categoryButtons = categories.map((category) => (
-    <Carousel.Slide>
+    <Carousel.Slide key={category}>
       <Button
         onClick={() => onClick(category)}
         data-active={category === value || undefined}
