@@ -1,0 +1,87 @@
+.receiptContainer {
+  width: 80mm;
+  padding: 8mm 5mm;
+  background-color: white;
+  color: var(--pos-type-dark);
+  font-family: "Courier New", Courier, monospace;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.headerTitleBox {
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.brandName {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.receiptLabel {
+  font-size: 22px;
+  letter-spacing: 4px;
+  margin: 10px 0;
+  font-weight: normal;
+}
+
+.asteriskDivider {
+  text-align: center;
+  letter-spacing: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.metadataSection span {
+  margin: 2px 0;
+  font-family: monospace;
+}
+
+.flexRow {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.bold {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.itemsSection span {
+  margin: 2px 0;
+  font-family: monospace;
+}
+
+.lineDashed {
+  border-top: 1px dashed black;
+  margin: 8px 0;
+}
+
+.footerSection {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 12px;
+}
+
+.summarySection span {
+  font-family: monospace;
+  margin: 2px 0;
+}
+
+.footerMsg {
+  padding: 0 5px;
+  font-style: italic;
+}
+
+@media print {
+  @page {
+    size: 80mm auto;
+    margin: 0;
+  }
+  .receiptContainer {
+    width: 100%;
+    padding: 5mm;
+  }
+}

@@ -15,6 +15,9 @@ import type { Order } from "../../types/order/order";
 import { toReadableDate } from "../../utils/dateFormatter";
 import type { ApiResponse } from "../../types/response/apiResponse";
 import type { MongooseOrderItem } from "../../types/orderItem/orderItem";
+import Receipt from "../printables/Receipt";
+import { useRef } from "react";
+import { useReactToPrint } from "react-to-print";
 
 interface OrderDetailDrawerProps {
   order: Order;
@@ -31,13 +34,24 @@ const OrderDetailDrawer = ({ order }: OrderDetailDrawerProps) => {
     enabled: !!order?._id, // only fetch if theres an order
   });
 
+  const receiptRef = useRef(null);
+
+  const printableData = {
+    order: order,
+    orderItems: orderItems?.data!!,
+  };
+
+  const handlePrint = useReactToPrint({
+    contentRef: receiptRef, // Point it to the Ref below
+  });
+
   const itemList = orderItems?.data?.map((item) => (
     <Group justify="space-between" key={item._id} flex={1}>
       <span>
         <span className={classes.quantity}>{`${item.quantity} x`}</span>{" "}
         {item.productId?.name || "Deleted Product"}
       </span>
-      <span>{`₱${item.price * item.quantity}`}</span>
+      <span>{`₱${(item.price * item.quantity).toFixed(2)}`}</span>
     </Group>
   ));
 
@@ -52,6 +66,11 @@ const OrderDetailDrawer = ({ order }: OrderDetailDrawerProps) => {
 
   return (
     <>
+      <div style={{ display: "none" }}>
+        <div style={{ display: "block" }}>
+          <Receipt ref={receiptRef} data={printableData} />
+        </div>
+      </div>
       <Stack>
         <h5>Summary</h5>
         <Divider />
@@ -67,14 +86,14 @@ const OrderDetailDrawer = ({ order }: OrderDetailDrawerProps) => {
         <Divider />
         <Group mb="lg" justify="space-between">
           <h4>Total</h4>
-          <h4>{`₱${order?.totalAmount}`}</h4>
+          <h4>{`₱${order?.totalAmount.toFixed(2)}`}</h4>
         </Group>
       </Stack>
       <Group grow>
         <Button
           className={classes.button__print}
           leftSection={<IconPrinter size={16} />}
-          onClick={() => window.print()}
+          onClick={handlePrint}
         >
           Print Invoice
         </Button>
