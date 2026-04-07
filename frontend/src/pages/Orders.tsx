@@ -5,6 +5,7 @@ import {
   Loader,
   Pagination,
   Paper,
+  Popover,
   Table,
   TextInput,
 } from "@mantine/core";
@@ -19,16 +20,20 @@ import type { Order } from "../types/order/order";
 import { toReadableDate } from "../utils/dateFormatter";
 import type { PaginatedResponse } from "../types/pagination/pagination";
 import { formatToTwoDecimals } from "../utils/currencyFormatter";
+import OrderFilterPopover from "../components/popovers/OrderFilterPopover";
+import type { DateRange } from "../types/dates/dateRange";
 
 const Orders = () => {
   const [page, setPage] = useState(1);
+  const [filterOpened, setFilterOpened] = useState<boolean>(false);
+  const [dateRange, setDateRange] = useState<DateRange>();
   const {
     data: orders,
     isLoading,
     isError,
   } = useQuery<ApiResponse<PaginatedResponse<Order[]>>, Error>({
-    queryKey: ["orders", page],
-    queryFn: () => getOrdersByPage(page),
+    queryKey: ["orders", page, dateRange],
+    queryFn: () => getOrdersByPage(page, dateRange?.from, dateRange?.to),
   });
 
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
@@ -41,6 +46,14 @@ const Orders = () => {
       <Table.Td>{`₱${formatToTwoDecimals(order.totalAmount)}`}</Table.Td>
     </Table.Tr>
   ));
+
+  const handleFilterChange = (from: string, to: string) => {
+    setDateRange({
+      from,
+      to,
+    });
+    setFilterOpened(false);
+  };
 
   if (isLoading)
     return (
@@ -75,9 +88,26 @@ const Orders = () => {
       <header className={classes.header}>
         <h3>Order History</h3>
         <section className={classes.header__buttons}>
-          <Button variant="outline" leftSection={<IconFilter2 size={16} />}>
-            Filter
-          </Button>
+          <Popover
+            keepMounted
+            opened={filterOpened}
+            onChange={setFilterOpened}
+            closeOnClickOutside={false}
+            width={300}
+          >
+            <Popover.Target>
+              <Button
+                variant="outline"
+                leftSection={<IconFilter2 size={16} />}
+                onClick={() => setFilterOpened((prev) => !prev)}
+              >
+                Filters
+              </Button>
+            </Popover.Target>
+            <Popover.Dropdown>
+              <OrderFilterPopover onApply={handleFilterChange} />
+            </Popover.Dropdown>
+          </Popover>
         </section>
       </header>
       <TextInput

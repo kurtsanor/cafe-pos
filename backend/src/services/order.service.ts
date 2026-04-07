@@ -6,17 +6,30 @@ import { PaginatedResponse } from "../types/pagination/pagination";
 
 export const getOrdersByPage = async (
   page: number,
+  from: string, // start date
+  to: string, // end date
 ): Promise<PaginatedResponse<MongooseOrder[]>> => {
   const pageNumber = page ?? DEFAULT_PAGE_NUMBER;
   const skip = (pageNumber - 1) * DEFAULT_PAGE_SIZE;
 
-  const orders = await Order.find()
+  const filter: Record<string, any> = {};
+
+  if (from && to) {
+    const end = new Date(to);
+    end.setHours(23, 59, 59, 999);
+    filter.createdAt = {
+      $gte: new Date(from),
+      $lte: end,
+    };
+  }
+
+  const orders = await Order.find(filter)
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(DEFAULT_PAGE_SIZE)
     .lean();
 
-  const totalCount = await Order.countDocuments();
+  const totalCount = await Order.countDocuments(filter);
 
   const totalPages = Math.ceil(totalCount / DEFAULT_PAGE_SIZE);
 

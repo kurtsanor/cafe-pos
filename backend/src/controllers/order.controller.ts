@@ -27,6 +27,9 @@ export const getOrdersByPage = async (
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
+  const startDate = req.query.from as string;
+  const endDate = req.query.to as string;
+
   // retrive page number from request query
   const page = req.query.page || 1;
   let parsedPage;
@@ -40,7 +43,11 @@ export const getOrdersByPage = async (
   }
 
   try {
-    const orders = await orderService.getOrdersByPage(parsedPage);
+    const orders = await orderService.getOrdersByPage(
+      parsedPage,
+      startDate,
+      endDate,
+    );
 
     ResponseUtility.success(res, orders, "Orders retrieved succesfully");
   } catch (error) {

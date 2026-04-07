@@ -13,9 +13,11 @@ export const createOrder = async (
 
 export const getOrdersByPage = async (
   page: number,
+  from?: string,
+  to?: string,
 ): Promise<ApiResponse<PaginatedResponse<Order[]>>> => {
   const response = await axiosInstance.get("/orders", {
-    params: { page },
+    params: { page, from, to },
   });
   return response.data;
 };
