@@ -6,6 +6,7 @@ import {
   PasswordInput,
   Select,
 } from "@mantine/core";
+import type { DatePickerInput } from "@mantine/dates";
 
 const POS_ACCENT = "#fc8019";
 
@@ -104,6 +105,11 @@ export const theme = createTheme({
       },
     },
     PasswordInput: {
+      styles: {
+        input: { borderColor: "var(--mantine-color-gray-2)" },
+      },
+    },
+    DatePickerInput: {
       styles: {
         input: { borderColor: "var(--mantine-color-gray-2)" },
       },
