@@ -2,6 +2,10 @@
   padding: calc(var(--mantine-spacing-xl) * 1.5);
 }
 
+.container {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03) !important;
+}
+
 .value {
   font-size: 24px !important;
   font-weight: bold;
@@ -21,5 +25,5 @@
 
 .title {
   font-weight: 600 !important;
-  color: var(--pos-type-faded) !important;
+  color: var(--pos-type-dark) !important;
 }

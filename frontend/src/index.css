@@ -110,3 +110,7 @@ th {
   background-color: var(--pos-separators);
   color: var(--pos-type-dark);
 }
+
+* {
+  font-family: "Inter" !important;
+}

@@ -5,7 +5,7 @@
 }
 
 .chart__title {
-  color: var(--pos-type-faded);
+  color: var(--pos-type-dark);
 }
 
 .text__value {
@@ -13,4 +13,25 @@
   font-weight: bold;
   line-height: 1 !important;
   color: var(--pos-type-dark) !important;
+}
+
+.header {
+  margin: 0;
+  margin-bottom: var(--mantine-spacing-md);
+}
+
+.header__title {
+  font-weight: 700 !important;
+  margin-bottom: 0;
+}
+
+.header__description {
+  word-spacing: 0;
+  font-size: 14px;
+}
+
+.chart__subHeader {
+  word-spacing: 0;
+  font-size: 14px;
+  color: var(--pos-type-faded);
 }

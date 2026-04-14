@@ -15,6 +15,10 @@ import { ModalsProvider } from "@mantine/modals";
 import { modals } from "./constants/modals.ts";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Notifications } from "@mantine/notifications";
+import "@fontsource/inter/400.css"; // Body text
+import "@fontsource/inter/500.css"; // Bold headers
+import "@fontsource/inter/600.css";
+import "@fontsource/inter/700.css";
 
 const queryClient = new QueryClient();
 

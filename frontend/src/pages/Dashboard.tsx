@@ -72,13 +72,20 @@ const Dashboard = () => {
 
   return (
     <main className={classes.main}>
+      <div className={classes.header}>
+        <h2 className={classes.header__title}>Dashboard</h2>
+        <p className={classes.header__description}>
+          Welcome back! Here's your business overview.
+        </p>
+      </div>
       <Grid mb="md">
         <Grid.Col span={{ base: 12, xs: 6, md: 3, lg: 3 }}>
           <StatsCard
             Icon={IconCurrencyPeso}
             isCurrencyValue={true}
             diff={12}
-            title="Sales Today"
+            title="Today's Sales"
+            subHeader="Compared to yesterday"
             value={analytics?.data?.salesToday || 0}
           />
         </Grid.Col>
@@ -88,7 +95,8 @@ const Dashboard = () => {
             Icon={IconPackage}
             isCurrencyValue={false}
             diff={12}
-            title="Products"
+            title="Total Products"
+            subHeader="Active products"
             value={analytics?.data?.totalProducts || 0}
           />
         </Grid.Col>
@@ -97,7 +105,8 @@ const Dashboard = () => {
             Icon={IconReceipt}
             isCurrencyValue={false}
             diff={12}
-            title="Total Transactions"
+            title="Orders"
+            subHeader="Total transactions"
             value={analytics?.data?.totalOrders || 0}
           />
         </Grid.Col>
@@ -107,12 +116,13 @@ const Dashboard = () => {
             isCurrencyValue={true}
             diff={12}
             title="Avg Order Value"
+            subHeader="Average order total"
             value={analytics?.data?.averageOrderValue || 0}
           />
         </Grid.Col>
 
         <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
-          <Paper shadow="xs" p="md">
+          <Paper withBorder p="md">
             <Flex justify={"space-between"}>
               <h5 className={classes.chart__title}>Sales Overview</h5>
               <Popover
@@ -160,11 +170,16 @@ const Dashboard = () => {
         </Grid.Col>
 
         <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
-          <Paper shadow="xs" p="md">
-            <h5 className={classes.chart__title}>Top 5 Most Ordered</h5>
+          <Paper withBorder p="md">
+            <h4 className={classes.chart__title}>
+              Top 5 Most Ordered Products
+            </h4>
+            <p className={classes.chart__subHeader}>
+              See what's trending in your store right now.
+            </p>
             <BarChart
               mt="lg"
-              h={285}
+              h={261}
               data={mostOrderedProducts || []}
               dataKey="product"
               orientation="horizontal"

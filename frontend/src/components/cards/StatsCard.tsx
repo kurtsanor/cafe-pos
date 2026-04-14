@@ -5,6 +5,7 @@ import { formatToTwoDecimals } from "../../utils/currencyFormatter";
 
 interface StatsCardInterface {
   title: string;
+  subHeader: string;
   value: number;
   diff: number;
   isCurrencyValue: boolean;
@@ -13,13 +14,14 @@ interface StatsCardInterface {
 
 const StatsCard = ({
   title,
+  subHeader,
   value,
   diff,
   isCurrencyValue,
   Icon,
 }: StatsCardInterface) => {
   return (
-    <Paper shadow="xs" p="md">
+    <Paper p="md" className={classes.container} withBorder>
       <Group justify="space-between">
         <Text size="xs" c="dimmed" className={classes.title}>
           {title}
@@ -39,7 +41,7 @@ const StatsCard = ({
       </Group>
 
       <Text fz="xs" c="dimmed" mt={7}>
-        Compared to previous month
+        {subHeader}
       </Text>
     </Paper>
   );
