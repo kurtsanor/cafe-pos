@@ -19,6 +19,7 @@ import "@fontsource/inter/400.css"; // Body text
 import "@fontsource/inter/500.css"; // Bold headers
 import "@fontsource/inter/600.css";
 import "@fontsource/inter/700.css";
+import { Analytics } from "@vercel/analytics/react";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ createRoot(document.getElementById("root")!).render(
         <BrowserRouter>
           <ModalsProvider modals={modals}>
             <Notifications />
+            <Analytics />
             <App />
           </ModalsProvider>
         </BrowserRouter>
