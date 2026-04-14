@@ -86,7 +86,12 @@ const Orders = () => {
         <OrderDetailDrawer order={selectedOrder!} />
       </Drawer>
       <header className={classes.header}>
-        <h3>Order History</h3>
+        <div className={classes.header_inner}>
+          <h2 className={classes.header__title}>Order Management</h2>
+          <p className={classes.header__description}>
+            Track and manage all incoming customer transactions.
+          </p>
+        </div>
         <section className={classes.header__buttons}>
           <Popover
             keepMounted

@@ -3,7 +3,7 @@
   padding: 8mm 5mm;
   background-color: white;
   color: var(--pos-type-dark);
-  font-family: "Courier New", Courier, monospace;
+  font-family: "Courier New", Courier, monospace !important;
   font-size: 13px;
   line-height: 1.4;
 }
@@ -35,7 +35,7 @@
 
 .metadataSection span {
   margin: 2px 0;
-  font-family: monospace;
+  font-family: monospace !important;
 }
 
 .flexRow {
@@ -51,7 +51,7 @@
 
 .itemsSection span {
   margin: 2px 0;
-  font-family: monospace;
+  font-family: monospace !important;
 }
 
 .lineDashed {
@@ -66,13 +66,13 @@
 }
 
 .summarySection span {
-  font-family: monospace;
+  font-family: monospace !important;
   margin: 2px 0;
 }
 
 .footerMsg {
   padding: 0 5px;
-  font-style: italic;
+  font-style: italic !important;
 }
 
 @media print {
