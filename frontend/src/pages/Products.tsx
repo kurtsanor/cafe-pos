@@ -158,7 +158,12 @@ const Products = () => {
   return (
     <main className={classes.main}>
       <header className={classes.header}>
-        <h3>Products</h3>
+        <div className={classes.header_inner}>
+          <h2 className={classes.header__title}>Product Catalog</h2>
+          <p className={classes.header__description}>
+            Manage your inventory and pricing in one place.
+          </p>
+        </div>
         <section className={classes.header__buttons}>
           <Button variant="outline" leftSection={<IconFilter2 size={16} />}>
             Filter
