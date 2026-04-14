@@ -116,7 +116,7 @@ const Dashboard = () => {
             isCurrencyValue={true}
             diff={12}
             title="Avg Order Value"
-            subHeader="Average order total"
+            subHeader="Average total per order"
             value={analytics?.data?.averageOrderValue || 0}
           />
         </Grid.Col>

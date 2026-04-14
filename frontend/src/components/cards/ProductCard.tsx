@@ -10,11 +10,7 @@ interface ProductCardProps {
 
 const ProductCard = ({ product, onClick }: ProductCardProps) => {
   return (
-    <Card
-      shadow="xs"
-      onClick={() => onClick(product)}
-      className={classes.product}
-    >
+    <Card onClick={() => onClick(product)} className={classes.product}>
       <Card.Section className={classes.product__image}>
         <Image
           src={product.imageUrl}

@@ -26,6 +26,21 @@
   padding: 1rem;
 }
 
+.header {
+  margin: 0;
+  margin-bottom: var(--mantine-spacing-md);
+}
+
+.header__title {
+  font-weight: 700 !important;
+  margin-bottom: 0;
+}
+
+.header__description {
+  word-spacing: 0;
+  font-size: 14px;
+}
+
 .main__order_entry {
   background: white;
   display: flex;
@@ -46,6 +61,12 @@
   border-bottom: 1px solid
     light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
   padding: 0.5rem;
+}
+
+.order_entry__title {
+  font-weight: 700 !important;
+  font-size: 16px;
+  margin-left: 6px;
 }
 
 .order_entry__body {
@@ -74,6 +95,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.total_text {
+  font-weight: 700 !important;
 }
 
 .footer__buttons {

@@ -175,6 +175,12 @@ const Menu = () => {
     <div className={classes.container}>
       <main className={classes.main}>
         <article className={classes.main__menu}>
+          <div className={classes.header}>
+            <h2 className={classes.header__title}>Point of Sales</h2>
+            <p className={classes.header__description}>
+              Process transactions and manage customer orders.
+            </p>
+          </div>
           <CategoryButtons
             categories={PRODUCT_CATEGORIES}
             value={category}
@@ -219,7 +225,8 @@ const Menu = () => {
         <aside className={classes.main__order_entry}>
           {/* Order Entry Header */}
           <header className={classes.order_entry__header}>
-            <h4>Order Items</h4>
+            <IconShoppingCart size={19} />
+            <h4 className={classes.order_entry__title}>Current Order</h4>
           </header>
 
           {/* Order Entry Body */}
@@ -241,8 +248,10 @@ const Menu = () => {
           {/* Order Entry Footer */}
           <footer className={classes.order_entry__footer}>
             <section className={classes.footer__total}>
-              <h4>Total</h4>
-              <h4>{`₱${formatToTwoDecimals(totalPrice)}`}</h4>
+              <h4 className={classes.total_text}>Total</h4>
+              <h4
+                className={classes.total_text}
+              >{`₱${formatToTwoDecimals(totalPrice)}`}</h4>
             </section>
             <section className={classes.footer__buttons}>
               <Button
