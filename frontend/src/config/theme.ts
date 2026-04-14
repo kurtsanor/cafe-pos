@@ -1,12 +1,4 @@
-import {
-  Button,
-  createTheme,
-  NativeSelect,
-  NumberInput,
-  PasswordInput,
-  Select,
-} from "@mantine/core";
-import type { DatePickerInput } from "@mantine/dates";
+import { createTheme } from "@mantine/core";
 
 const POS_ACCENT = "#fc8019";
 
