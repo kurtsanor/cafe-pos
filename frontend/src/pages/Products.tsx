@@ -185,7 +185,7 @@ const Products = () => {
         mb={"md"}
       />
       <section className={classes.body__container}>
-        <Paper shadow="xs" p="xs">
+        <Paper p="xs" withBorder>
           <Table withRowBorders={false} striped={"even"}>
             <Table.Thead>
               <Table.Tr>

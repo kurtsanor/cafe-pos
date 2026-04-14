@@ -21,6 +21,7 @@
   --pos-type-dark: #171826;
   --pos-type-faded: #9f9f9e;
   --pos-separators: #f5f5f5;
+  --mantine-color-gray-3: var(--mantine-color-gray-2) !important;
 
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;

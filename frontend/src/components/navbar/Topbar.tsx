@@ -56,7 +56,6 @@ const Topbar = () => {
       </Group>
 
       <TextInput
-        variant="filled"
         leftSection={<IconSearch size={16} />}
         size="xs"
         placeholder="Search products...."

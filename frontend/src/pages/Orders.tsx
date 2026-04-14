@@ -124,7 +124,7 @@ const Orders = () => {
         mb={"md"}
       />
       <section className={classes.body__container}>
-        <Paper shadow="xs" p="xs" flex={1}>
+        <Paper withBorder p="xs" flex={1}>
           <Table withRowBorders={false} striped={"even"} highlightOnHover>
             <Table.Thead>
               <Table.Tr>
