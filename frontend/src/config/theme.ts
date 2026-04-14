@@ -1,4 +1,11 @@
-import { createTheme, NativeSelect, NumberInput, Select } from "@mantine/core";
+import {
+  Button,
+  createTheme,
+  NativeSelect,
+  NumberInput,
+  PasswordInput,
+  Select,
+} from "@mantine/core";
 
 const POS_ACCENT = "#fc8019";
 
@@ -29,7 +36,7 @@ export const theme = createTheme({
       styles: {
         title: {
           fontSize: "16px",
-          fontWeight: 500,
+          fontWeight: 700,
           color: "#171826",
         },
       },
@@ -92,6 +99,11 @@ export const theme = createTheme({
       },
     },
     NumberInput: {
+      styles: {
+        input: { borderColor: "var(--mantine-color-gray-2)" },
+      },
+    },
+    PasswordInput: {
       styles: {
         input: { borderColor: "var(--mantine-color-gray-2)" },
       },

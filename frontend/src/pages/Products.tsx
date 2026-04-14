@@ -9,6 +9,7 @@ import {
   Paper,
   Table,
   TextInput,
+  Text,
 } from "@mantine/core";
 import classes from "../styles/Products.module.css";
 import {
@@ -49,7 +50,14 @@ const Products = () => {
   // Handles opening of product form modal
   const openProductModal = () => {
     modals.openContextModal({
-      title: "New Product",
+      title: (
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <Text fw={700}>Add New Product</Text>
+          <Text size="xs" c="dimmed" fw={400}>
+            Enter the product details below.
+          </Text>
+        </div>
+      ),
       modal: MODAL_KEYS.ProductForm,
       innerProps: {},
       centered: true,

@@ -247,7 +247,7 @@ const ProductFormModal = ({
           {...form.getInputProps("price")}
         />
         <Group justify="flex-end">
-          <Button variant="outline" onClick={closeModal} disabled={isPending}>
+          <Button variant="default" onClick={closeModal} disabled={isPending}>
             Cancel
           </Button>
           <Button

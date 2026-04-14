@@ -33,7 +33,7 @@ export function Quantity({
         min={1}
         size="xs"
         w={43}
-        styles={{ input: { textAlign: "center" } }}
+        styles={{ input: { textAlign: "center", border: "none" } }}
         readOnly
       />
 
