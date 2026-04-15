@@ -3,6 +3,7 @@ import {
   IconPackage,
   IconReceipt,
   IconCalculator,
+  IconCategory,
 } from "@tabler/icons-react";
 
 export const sidebarRoutes = [
@@ -15,7 +16,10 @@ export const sidebarRoutes = [
   },
   {
     category: "Inventory Management",
-    routes: [{ icon: IconPackage, label: "Products", to: "/products" }],
+    routes: [
+      { icon: IconPackage, label: "Products", to: "/products" },
+      { icon: IconCategory, label: "Categories", to: "/categories" },
+    ],
   },
   {
     category: "Sales & Orders",

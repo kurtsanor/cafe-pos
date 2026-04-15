@@ -6,6 +6,7 @@ import Orders from "./pages/Orders";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import PublicRoute from "./routes/PublicRoute";
+import Categories from "./pages/Categories";
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
           <Route path="/menu" element={<Menu />} />
           <Route path="/products" element={<Products />} />
           <Route path="/orders" element={<Orders />} />
-          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/categories" element={<Categories />} />
         </Route>
       </Routes>
     </>

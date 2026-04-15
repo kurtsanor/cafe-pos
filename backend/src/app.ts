@@ -43,7 +43,7 @@ const authLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-app.use(apiLimiter);
+// app.use(apiLimiter);
 
 app.use(cookieParser());
 app.use(helmet());

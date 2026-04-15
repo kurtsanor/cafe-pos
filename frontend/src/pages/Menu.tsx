@@ -30,8 +30,9 @@ import type { OrderItem as OrderItemType } from "../types/orderItem/orderItem";
 import type { PaginatedResponse } from "../types/pagination/pagination";
 import { useSearchParams } from "react-router-dom";
 import { formatToTwoDecimals } from "../utils/currencyFormatter";
-import { PRODUCT_CATEGORIES } from "../constants/products";
 import CategoryButtons from "../components/carousels/CategoryButtons";
+import type { Category } from "../types/categories/category";
+import { getAllCategories } from "../api/categories.api";
 
 const Menu = () => {
   const [searchParams, setSearchParams] = useSearchParams({ page: "1" });
@@ -46,6 +47,13 @@ const Menu = () => {
   } = useQuery<ApiResponse<PaginatedResponse<Product[]>>, Error>({
     queryKey: ["products", page, category],
     queryFn: () => getProductsByPage(page, category == "All" ? "" : category),
+  });
+
+  const { data: categories, isLoading: isCategoriesLoading } = useQuery<
+    ApiResponse<Category[]>
+  >({
+    queryKey: ["categories"],
+    queryFn: () => getAllCategories(),
   });
 
   const [cart, setCart] = useState<OrderItemType[]>([]);
@@ -154,7 +162,7 @@ const Menu = () => {
     />
   ));
 
-  if (isLoading)
+  if (isLoading || isCategoriesLoading)
     return (
       <div className={classes.main}>
         <Center w={"100%"} h={"90vh"}>
@@ -182,7 +190,7 @@ const Menu = () => {
             </p>
           </div>
           <CategoryButtons
-            categories={PRODUCT_CATEGORIES}
+            categories={categories?.data!!}
             value={category}
             onClick={handleOnFilterChange}
           />

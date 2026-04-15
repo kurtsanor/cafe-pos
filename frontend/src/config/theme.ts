@@ -1,4 +1,4 @@
-import { createTheme } from "@mantine/core";
+import { createTheme, Textarea } from "@mantine/core";
 
 const POS_ACCENT = "#fc8019";
 
@@ -21,6 +21,11 @@ export const theme = createTheme({
   },
   components: {
     Select: {
+      styles: {
+        input: { borderColor: "var(--mantine-color-gray-2)" },
+      },
+    },
+    Textarea: {
       styles: {
         input: { borderColor: "var(--mantine-color-gray-2)" },
       },

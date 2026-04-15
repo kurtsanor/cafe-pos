@@ -45,7 +45,7 @@ const Sidebar = () => {
       />
     ));
     return (
-      <div className={classes.category_container}>
+      <div className={classes.category_container} key={group.category}>
         <p className={classes.group__title}>{group.category}</p>
         {routes}
       </div>

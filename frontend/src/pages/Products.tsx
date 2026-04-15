@@ -66,7 +66,14 @@ const Products = () => {
 
   const openEditModal = (product: Product) => {
     modals.openContextModal({
-      title: "Edit Product",
+      title: (
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <Text fw={700}>Edit Product</Text>
+          <Text size="xs" c="dimmed" fw={400}>
+            Enter updated product details below.
+          </Text>
+        </div>
+      ),
       modal: MODAL_KEYS.ProductForm,
       innerProps: { product },
       centered: true,
