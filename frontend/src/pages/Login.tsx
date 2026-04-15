@@ -65,7 +65,7 @@ export const Login = () => {
   return (
     <form className={classes.container} onSubmit={form.onSubmit(handleLogin)}>
       <Container size={420} className={classes.container__inner}>
-        <Paper withBorder p={22} className={classes.form_container}>
+        <Paper shadow="xs" withBorder p={22} className={classes.form_container}>
           <Center>
             <Image
               src={logo}
@@ -96,13 +96,13 @@ export const Login = () => {
             size="sm"
             label="Password"
             placeholder="Your password"
-            mt="md"
+            mt="xs"
             {...form.getInputProps("password")}
             disabled={loginMutation.isPending}
           />
           <Button
             fullWidth
-            mt="xl"
+            mt="md"
             loading={loginMutation.isPending}
             type="submit"
           >
