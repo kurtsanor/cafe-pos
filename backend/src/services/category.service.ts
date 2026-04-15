@@ -16,3 +16,7 @@ export const createCategory = async (
 export const getAllCategories = async (): Promise<MongooseCategory[]> => {
   return await Category.find();
 };
+
+export const deleteCategoryById = async (id: string): Promise<void> => {
+  await Category.deleteOne({ _id: id });
+};

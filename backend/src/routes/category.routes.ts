@@ -6,5 +6,6 @@ const router = express.Router();
 
 router.get("/", authenticate, categoryController.getAllCategories);
 router.post("/", authenticate, categoryController.createCategory);
+router.delete("/:id", authenticate, categoryController.deleteCategoryById);
 
 export default router;

@@ -13,3 +13,12 @@ export const createCategory = async (
   const response = await axiosInstance.post("/categories", category);
   return response.data;
 };
+
+export const deleteCategoryById = async (
+  id: string,
+): Promise<ApiResponse<void>> => {
+  const response = await axiosInstance.delete(`/categories/${id}`);
+  console.log(response);
+
+  return response.data;
+};

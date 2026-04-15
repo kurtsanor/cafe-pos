@@ -12,18 +12,20 @@ import {
 } from "@mantine/core";
 import classes from "../styles/Categories.module.css";
 import {
+  IconCheckFilled,
   IconDotsVertical,
   IconEdit,
   IconPlus,
   IconSearch,
   IconTrash,
 } from "@tabler/icons-react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { ApiResponse } from "../types/response/apiResponse";
-import { getAllCategories } from "../api/categories.api";
+import { deleteCategoryById, getAllCategories } from "../api/categories.api";
 import type { Category } from "../types/categories/category";
 import { modals } from "@mantine/modals";
 import { MODAL_KEYS } from "../constants/modals";
+import { notifications } from "@mantine/notifications";
 
 const Categories = () => {
   const {
@@ -33,6 +35,34 @@ const Categories = () => {
   } = useQuery<ApiResponse<Category[]>, Error>({
     queryKey: ["categories"],
     queryFn: () => getAllCategories(),
+  });
+
+  const queryClient = useQueryClient();
+
+  const deleteMutation = useMutation<
+    ApiResponse<void>, // return type
+    Error, // type of error
+    string // input type
+  >({
+    mutationFn: deleteCategoryById,
+    onSuccess: () => {
+      // invalidate the cache
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
+
+      // show notification
+      notifications.show({
+        color: "var(--pos-pop)",
+        icon: <IconCheckFilled />,
+        message: "Category deleted successfully.",
+        withBorder: true,
+        position: "bottom-left",
+      });
+    },
+    onError: (error) => {
+      notifications.show({
+        message: error.message,
+      });
+    },
   });
 
   const openCategoryModal = () => {
@@ -79,6 +109,7 @@ const Categories = () => {
               fz={"xs"}
               color="red"
               leftSection={<IconTrash size={17} />}
+              onClick={() => deleteMutation.mutate(category._id)}
             >
               <span>Delete</span>
             </Menu.Item>

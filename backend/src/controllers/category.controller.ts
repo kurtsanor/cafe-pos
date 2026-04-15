@@ -38,3 +38,18 @@ export const getAllCategories = async (
     next(error);
   }
 };
+
+export const deleteCategoryById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  const id = req.params.id.toString();
+  try {
+    await categoryService.deleteCategoryById(id);
+
+    ResponseUtility.deleted(res, null, "Category deleted succesfully.");
+  } catch (error) {
+    next(error);
+  }
+};
