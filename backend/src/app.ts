@@ -4,6 +4,7 @@ import productRoutes from "../src/routes/product.routes";
 import orderRoutes from "../src/routes/order.routes";
 import analyticsRoutes from "../src/routes/analytics.routes";
 import authRoutes from "../src/routes/auth.routes";
+import categoryRoutes from "../src/routes/category.routes";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
@@ -51,6 +52,7 @@ app.use("/products", productRoutes);
 app.use("/orders", orderRoutes);
 app.use("/analytics", analyticsRoutes);
 app.use("/auth", authLimiter, authRoutes);
+app.use("/categories", categoryRoutes);
 
 // Global error handler
 app.use(
