@@ -38,6 +38,15 @@ export const Login = () => {
       navigate("/dashboard");
     },
     onError(error: any) {
+      if (error.response.status == 429) {
+        notifications.show({
+          color: "red",
+          icon: <IconX />,
+          message: "Too many request. Please try again later.",
+          position: "bottom-left",
+        });
+        return;
+      }
       notifications.show({
         color: "red",
         icon: <IconX />,
