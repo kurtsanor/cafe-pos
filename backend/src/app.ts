@@ -6,6 +6,7 @@ import analyticsRoutes from "../src/routes/analytics.routes";
 import authRoutes from "../src/routes/auth.routes";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import rateLimit from "express-rate-limit";
 
 // Init express app
 const app = express();
@@ -27,13 +28,29 @@ app.use(
   }),
 );
 
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // requests per window per IP
+  standardHeaders: true, // return RateLimit-* headers
+  legacyHeaders: false,
+});
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+app.use(apiLimiter);
+
 app.use(cookieParser());
 app.use(helmet());
 
 app.use("/products", productRoutes);
 app.use("/orders", orderRoutes);
 app.use("/analytics", analyticsRoutes);
-app.use("/auth", authRoutes);
+app.use("/auth", authLimiter, authRoutes);
 
 // Global error handler
 app.use(
