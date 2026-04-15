@@ -125,6 +125,7 @@ const Products = () => {
           </Menu.Target>
           <Menu.Dropdown>
             <Menu.Item
+              fz={"xs"}
               leftSection={<IconEdit size={17} />}
               disabled={deleteMutation.isPending}
               onClick={() => openEditModal(product)}
@@ -132,6 +133,7 @@ const Products = () => {
               <span>Edit</span>
             </Menu.Item>
             <Menu.Item
+              fz={"xs"}
               color="red"
               leftSection={<IconTrash size={17} />}
               onClick={() => deleteProduct(product._id)}

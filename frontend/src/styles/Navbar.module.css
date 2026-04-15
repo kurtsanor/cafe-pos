@@ -32,18 +32,25 @@
   padding: 8px !important;
 
   &:hover {
-    background-color: light-dark(
+    /* background-color: light-dark(
       var(--mantine-color-gray-0),
       var(--mantine-color-dark-5)
-    );
+    ); */
+    background-color: var(--pos-highlight);
+    .link__label {
+      color: var(--pos-type-dark);
+    }
+    .link__icon {
+      color: var(--pos-type-dark);
+    }
   }
 
   &[data-active] {
     &,
     &:hover {
       background-color: var(--pos-highlight);
-      /* color: var(--pos-accent);
-      border: solid 1px !important; */
+      color: var(--pos-type-dark) !important;
+      /* border: solid 1px !important; */
     }
   }
 }
@@ -53,6 +60,7 @@
   font-size: 14px;
 
   &[data-active] {
+    font-weight: 500;
     color: var(--pos-type-dark);
   }
 }

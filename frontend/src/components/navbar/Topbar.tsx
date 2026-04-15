@@ -3,20 +3,33 @@ import {
   Button,
   Group,
   Image,
+  Menu,
   Popover,
   Stack,
   TextInput,
 } from "@mantine/core";
 import classes from "../../styles/Topbar.module.css";
-import { IconSearch } from "@tabler/icons-react";
+import { IconLogout, IconSearch, IconUser } from "@tabler/icons-react";
 import logo from "../../assets/fluxposlogo.avif";
 import { useState } from "react";
 import { sidebarRoutes } from "../../constants/routes";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { logout } from "../../api/auth.api";
+import { clearAccessToken } from "../../store/auth.store";
+import type { ApiResponse } from "../../types/response/apiResponse";
 
 const Topbar = () => {
   const [opened, setIsOpened] = useState<boolean>(false);
   const navigate = useNavigate();
+
+  const logoutMutation = useMutation<ApiResponse<null>, Error>({
+    mutationFn: logout,
+    onSuccess: () => {
+      clearAccessToken();
+      window.location.href = "/";
+    },
+  });
 
   const routes = sidebarRoutes.map((category) => {
     const navRoutes = category.routes.map((route) => (
@@ -66,6 +79,26 @@ const Topbar = () => {
         size="xs"
         placeholder="Search products...."
       />
+      <Menu>
+        <Menu.Target>
+          <Button
+            leftSection={<IconUser size={18} />}
+            variant="default"
+            size="xs"
+          >
+            Admin
+          </Button>
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Item
+            fz={"xs"}
+            leftSection={<IconLogout size={18} />}
+            onClick={() => logoutMutation.mutate()}
+          >
+            Logout
+          </Menu.Item>
+        </Menu.Dropdown>
+      </Menu>
     </header>
   );
 };

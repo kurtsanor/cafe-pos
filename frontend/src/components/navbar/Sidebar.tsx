@@ -1,12 +1,8 @@
-import { IconHome2, IconLogout } from "@tabler/icons-react";
+import { IconHome2 } from "@tabler/icons-react";
 import { Stack, UnstyledButton } from "@mantine/core";
 import classes from "../../styles/Navbar.module.css";
 import { sidebarRoutes } from "../../constants/routes";
 import { Link, useLocation } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
-import type { ApiResponse } from "../../types/response/apiResponse";
-import { logout } from "../../api/auth.api";
-import { clearAccessToken } from "../../store/auth.store";
 
 interface SidebarLinkProps {
   icon: typeof IconHome2;
@@ -40,14 +36,6 @@ const SidebarLink = ({ icon: Icon, label, to, active }: SidebarLinkProps) => {
 const Sidebar = () => {
   const location = useLocation();
 
-  const logoutMutation = useMutation<ApiResponse<null>, Error>({
-    mutationFn: logout,
-    onSuccess: () => {
-      clearAccessToken();
-      window.location.href = "/";
-    },
-  });
-
   const links = sidebarRoutes.map((group) => {
     const routes = group.routes.map((route) => (
       <SidebarLink
@@ -71,17 +59,6 @@ const Sidebar = () => {
           {links}
         </Stack>
       </div>
-
-      <Stack justify="center" gap={0}>
-        <UnstyledButton
-          p={"xs"}
-          className={classes.link}
-          onClick={() => logoutMutation.mutate()}
-        >
-          <IconLogout className={classes.link__icon} size={20} stroke={1.5} />
-          <span className={classes.link__label}>Logout</span>
-        </UnstyledButton>
-      </Stack>
     </nav>
   );
 };
