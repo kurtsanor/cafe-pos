@@ -19,7 +19,6 @@ interface SidebarLinkProps {
 const SidebarLink = ({ icon: Icon, label, to, active }: SidebarLinkProps) => {
   return (
     <UnstyledButton
-      p={"xs"}
       className={classes.link}
       data-active={active || undefined}
       aria-label={label}
@@ -29,8 +28,7 @@ const SidebarLink = ({ icon: Icon, label, to, active }: SidebarLinkProps) => {
       <Icon
         data-active={active || undefined}
         className={classes.link__icon}
-        size={20}
-        stroke={1.5}
+        size={18}
       />
       <span data-active={active || undefined} className={classes.link__label}>
         {label}
@@ -50,13 +48,21 @@ const Sidebar = () => {
     },
   });
 
-  const links = sidebarRoutes.map((link) => (
-    <SidebarLink
-      {...link}
-      key={link.label}
-      active={link.to === location.pathname}
-    />
-  ));
+  const links = sidebarRoutes.map((group) => {
+    const routes = group.routes.map((route) => (
+      <SidebarLink
+        {...route}
+        key={route.label}
+        active={route.to === location.pathname}
+      />
+    ));
+    return (
+      <div className={classes.category_container}>
+        <p className={classes.group__title}>{group.category}</p>
+        {routes}
+      </div>
+    );
+  });
 
   return (
     <nav className={classes.navbar}>

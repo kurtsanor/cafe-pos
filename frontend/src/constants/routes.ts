@@ -1,13 +1,24 @@
 import {
   IconHome2,
-  IconGauge,
-  IconDeviceDesktopAnalytics,
-  IconCalendarStats,
+  IconPackage,
+  IconReceipt,
+  IconCalculator,
 } from "@tabler/icons-react";
 
 export const sidebarRoutes = [
-  { icon: IconHome2, label: "Home", to: "/dashboard" },
-  { icon: IconGauge, label: "Menu", to: "/menu" },
-  { icon: IconDeviceDesktopAnalytics, label: "Orders", to: "/orders" },
-  { icon: IconCalendarStats, label: "Products", to: "/products" },
+  {
+    category: "Main",
+    routes: [
+      { icon: IconHome2, label: "Dashboard", to: "/dashboard" },
+      { icon: IconCalculator, label: "Point of Sale", to: "/menu" },
+    ],
+  },
+  {
+    category: "Inventory Management",
+    routes: [{ icon: IconPackage, label: "Products", to: "/products" }],
+  },
+  {
+    category: "Sales & Orders",
+    routes: [{ icon: IconReceipt, label: "Orders", to: "/orders" }],
+  },
 ];

@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import classes from "../../styles/Topbar.module.css";
 import { IconSearch } from "@tabler/icons-react";
-import logo from "../../assets/mock logo.avif";
+import logo from "../../assets/fluxposlogo.avif";
 import { useState } from "react";
 import { sidebarRoutes } from "../../constants/routes";
 import { useNavigate } from "react-router-dom";
@@ -18,25 +18,28 @@ const Topbar = () => {
   const [opened, setIsOpened] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const routes = sidebarRoutes.map((route) => (
-    <Button
-      key={route.label}
-      justify="start"
-      variant="default"
-      fullWidth
-      leftSection={<route.icon size={16} />}
-      onClick={() => {
-        navigate(route.to);
-        setIsOpened(false);
-      }}
-    >
-      {route.label}
-    </Button>
-  ));
+  const routes = sidebarRoutes.map((category) => {
+    const navRoutes = category.routes.map((route) => (
+      <Button
+        key={route.label}
+        justify="start"
+        variant="default"
+        fullWidth
+        leftSection={<route.icon size={16} />}
+        onClick={() => {
+          navigate(route.to);
+          setIsOpened(false);
+        }}
+      >
+        {route.label}
+      </Button>
+    ));
+    return navRoutes;
+  });
 
   return (
     <header className={classes.topbar}>
-      <Group gap={5}>
+      <Group gap={5} align="start">
         <Popover width={"100%"} opened={opened}>
           <Popover.Target>
             <Burger
@@ -51,8 +54,11 @@ const Topbar = () => {
           </Popover.Dropdown>
         </Popover>
 
-        <Image src={logo} fit="cover" h={30} w={40} />
-        <h3 className={classes.topbar__title}>SunbrewCafé</h3>
+        <Image src={logo} fit="cover" h={35} w={40} mr={5} />
+        <Stack gap={0}>
+          <span className={classes.topbar__title}>Flux POS</span>
+          <p className={classes.topbar__subHeader}>Enterprise</p>
+        </Stack>
       </Group>
 
       <TextInput
