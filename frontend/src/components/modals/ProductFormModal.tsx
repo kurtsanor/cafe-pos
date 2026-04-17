@@ -7,9 +7,10 @@ import {
   TextInput,
   Text,
   Image,
+  Loader,
+  Center,
 } from "@mantine/core";
 import type { ContextModalProps } from "@mantine/modals";
-import { PRODUCT_CATEGORIES } from "../../constants/products";
 import {
   IconCheck,
   IconCheckFilled,
@@ -20,11 +21,12 @@ import {
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useEffect, useState } from "react";
 import { useForm } from "@mantine/form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { Product, UpdateProductInput } from "../../types/product/product";
 import { createProduct, updateProduct } from "../../api/product.api";
 import type { ApiResponse } from "../../types/response/apiResponse";
 import { notifications } from "@mantine/notifications";
+import { getAllCategories } from "../../api/categories.api";
 
 const ProductFormModal = ({
   id,
@@ -33,6 +35,13 @@ const ProductFormModal = ({
 }: ContextModalProps<{ product: Product }>) => {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+
+  const { data: categories, isLoading } = useQuery({
+    queryKey: ["categories"],
+    queryFn: getAllCategories,
+  });
+
+  const categoryArray = categories?.data?.map((category) => category.name);
 
   const queryClient = useQueryClient();
 
@@ -178,6 +187,14 @@ const ProductFormModal = ({
     createMutation.mutate(formData);
   };
 
+  if (isLoading) {
+    return (
+      <Center w={"100%"} h={"100%"}>
+        <Loader />
+      </Center>
+    );
+  }
+
   return (
     <form onSubmit={form.onSubmit(create)}>
       <Stack gap={"xs"}>
@@ -234,7 +251,7 @@ const ProductFormModal = ({
           size="xs"
           label="Product Category"
           placeholder="Select Category"
-          data={PRODUCT_CATEGORIES}
+          data={categoryArray}
           disabled={isPending}
           {...form.getInputProps("category")}
         />

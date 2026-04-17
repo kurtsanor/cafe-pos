@@ -11,7 +11,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import { IconCheckFilled } from "@tabler/icons-react";
 
-const CategoryFormModal = ({ id, context, innerProps }: ContextModalProps) => {
+const CategoryFormModal = ({ id, context }: ContextModalProps) => {
   const closeModal = () => context.closeModal(id);
 
   const queryClient = useQueryClient();

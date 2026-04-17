@@ -102,9 +102,6 @@ const Categories = () => {
             </ActionIcon>
           </Menu.Target>
           <Menu.Dropdown>
-            <Menu.Item fz={"xs"} leftSection={<IconEdit size={17} />}>
-              <span>Edit</span>
-            </Menu.Item>
             <Menu.Item
               fz={"xs"}
               color="red"
