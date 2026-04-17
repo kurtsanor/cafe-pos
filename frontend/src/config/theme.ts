@@ -1,4 +1,4 @@
-import { createTheme, Textarea } from "@mantine/core";
+import { createTheme } from "@mantine/core";
 
 const POS_ACCENT = "#fc8019";
 

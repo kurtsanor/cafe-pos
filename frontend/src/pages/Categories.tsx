@@ -14,7 +14,6 @@ import classes from "../styles/Categories.module.css";
 import {
   IconCheckFilled,
   IconDotsVertical,
-  IconEdit,
   IconPlus,
   IconSearch,
   IconTrash,
