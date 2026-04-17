@@ -31,7 +31,7 @@ app.use(
 
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // requests per window per IP
+  max: 500, // requests per window per IP
   standardHeaders: true, // return RateLimit-* headers
   legacyHeaders: false,
 });
@@ -43,7 +43,7 @@ const authLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-// app.use(apiLimiter);
+app.use(apiLimiter);
 
 app.use(cookieParser());
 app.use(helmet());
